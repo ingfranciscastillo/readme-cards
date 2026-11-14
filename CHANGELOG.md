@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-11-14
+
 ### Added
 
 - Banner template: a wide README header with eyebrow, title, subtitle and tags, in classic,
@@ -18,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - New social platforms for Profile and Contact: GitLab, Threads, Instagram, Discord, Telegram,
   Medium, Dribbble and CodePen.
 - GitHub link in the gallery and editor headers.
+- Social preview image and Open Graph tags, so links to the app unfurl with a preview.
 - Automatic deployment to GitHub Pages on every push to `main`.
 - MIT license.
 
@@ -44,5 +47,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   HTML snippets.
 - Work saved to `localStorage`, with a per-template reset.
 
-[Unreleased]: https://github.com/ingfranciscastillo/readme-cards/compare/88447d5...HEAD
-[0.1.0]: https://github.com/ingfranciscastillo/readme-cards/commit/88447d5
+[Unreleased]: https://github.com/ingfranciscastillo/readme-cards/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/ingfranciscastillo/readme-cards/compare/v0.1.0...v0.2.0
+[0.1.0]: https://github.com/ingfranciscastillo/readme-cards/releases/tag/v0.1.0
