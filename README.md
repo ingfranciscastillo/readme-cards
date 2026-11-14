@@ -1,7 +1,5 @@
 <div align="center">
 
-<img src="public/favicon.svg" alt="" width="72" height="72" />
-
 # Readme Cards
 
 **Design SVG cards for your GitHub profile and READMEs, right in the browser.**
@@ -10,6 +8,7 @@
 ![React](https://img.shields.io/badge/React-19-149eca?logo=react&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178c6?logo=typescript&logoColor=white)
 ![Vite](https://img.shields.io/badge/Vite-8-646cff?logo=vite&logoColor=white)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 [**Open the app**](https://ingfranciscastillo.github.io/readme-cards/) · [Features](#features) · [How it works](#how-it-works) · [Run locally](#run-locally)
 
