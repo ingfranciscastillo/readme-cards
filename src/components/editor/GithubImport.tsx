@@ -2,13 +2,16 @@ import { CheckCircle, Github, WarningTriangle } from "iconoir-react";
 import { useEffect, useId, useRef, useState } from "react";
 import {
   fetchRepo,
+  fetchRepoLanguages,
   fetchUser,
+  fetchUserRepos,
   GithubError,
   type GithubRepo,
   type GithubUser,
   getLastRateLimit,
   type RateLimit,
 } from "../../lib/github/api";
+import { repoLanguageCounts } from "../../lib/github/map";
 import { parseGithubInput } from "../../lib/github/parse";
 import { Button } from "../ui/Button";
 
@@ -26,7 +29,27 @@ type Props =
   | {
       mode: "repo";
       onImport: (repo: GithubRepo, signal: AbortSignal) => Promise<string | undefined>;
+    }
+  | {
+      /** A user (repositories counted by main language) or a repository (bytes per language). */
+      mode: "languages";
+      onImport: (
+        data: { languages: Record<string, number>; byRepoCount: boolean },
+        signal: AbortSignal,
+      ) => Promise<string | undefined>;
     };
+
+const LABELS = {
+  user: "Import from a GitHub profile",
+  repo: "Import from a GitHub repository",
+  languages: "Import from GitHub",
+} as const;
+
+const PLACEHOLDERS = {
+  user: "octocat or github.com/octocat",
+  repo: "owner/repository or URL",
+  languages: "octocat or owner/repository",
+} as const;
 
 function rateText(rate: RateLimit | null): string | null {
   if (!rate?.limit) return null;
@@ -46,8 +69,7 @@ export function GithubImport(props: Props) {
 
   useEffect(() => () => controller.current?.abort(), []);
 
-  const placeholder =
-    props.mode === "user" ? "octocat or github.com/octocat" : "owner/repository or URL";
+  const placeholder = PLACEHOLDERS[props.mode];
 
   async function submit(event: React.FormEvent) {
     event.preventDefault();
@@ -76,6 +98,22 @@ export function GithubImport(props: Props) {
         if (!ctrl.signal.aborted) {
           setStatus({ kind: "success", message: `Imported @${user.login}.`, warning });
         }
+      } else if (props.mode === "languages") {
+        const byRepoCount = target.kind === "user";
+        const languages =
+          target.kind === "repo"
+            ? await fetchRepoLanguages(target.owner, target.repo, ctrl.signal)
+            : repoLanguageCounts(await fetchUserRepos(target.username, ctrl.signal));
+        const source =
+          target.kind === "repo" ? `${target.owner}/${target.repo}` : `@${target.username}`;
+        if (Object.keys(languages).length === 0) {
+          setStatus({ kind: "error", message: `No languages found for ${source}.` });
+          return;
+        }
+        warning = await props.onImport({ languages, byRepoCount }, ctrl.signal);
+        if (!ctrl.signal.aborted) {
+          setStatus({ kind: "success", message: `Imported languages from ${source}.`, warning });
+        }
       } else if (target.kind === "repo") {
         const repo = await fetchRepo(target.owner, target.repo, ctrl.signal);
         warning = await props.onImport(repo, ctrl.signal);
@@ -88,7 +126,7 @@ export function GithubImport(props: Props) {
       const message =
         error instanceof GithubError
           ? error.kind === "not-found"
-            ? props.mode === "user"
+            ? props.mode === "user" || (props.mode === "languages" && target.kind === "user")
               ? "No public GitHub user with that name."
               : "No public repository with that name. Private repositories can't be read without a token."
             : error.message
@@ -104,7 +142,7 @@ export function GithubImport(props: Props) {
   return (
     <form onSubmit={submit} className="flex flex-col gap-2" noValidate>
       <label htmlFor={id} className="text-[12px] font-medium text-ink-2">
-        {props.mode === "user" ? "Import from a GitHub profile" : "Import from a GitHub repository"}
+        {LABELS[props.mode]}
       </label>
       <div className="flex gap-2">
         <div className="relative min-w-0 flex-1">

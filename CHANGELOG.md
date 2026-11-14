@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Banner template: a wide README header with eyebrow, title, subtitle and tags, in classic,
+  accent rule and split layouts.
+- Contact template: social profiles, email and website with icons, as rows, a grid or an inline
+  list. Imports the social accounts listed on a GitHub profile.
+- Languages template: language shares as a stacked bar, bars or a donut. Imports bytes per
+  language from a repository, or counts a user's public repositories by main language.
+- New social platforms for Profile and Contact: GitLab, Threads, Instagram, Discord, Telegram,
+  Medium, Dribbble and CodePen.
 - GitHub link in the gallery and editor headers.
 - Automatic deployment to GitHub Pages on every push to `main`.
 - MIT license.

@@ -1,6 +1,12 @@
-import type { ProfileContent, RepositoryContent, SocialLink } from "../../types/content";
+import type {
+  LanguageEntry,
+  ProfileContent,
+  RepositoryContent,
+  SocialLink,
+  SocialPlatform,
+} from "../../types/content";
 import { languageColor } from "../languages";
-import type { GithubRepo, GithubUser } from "./api";
+import type { GithubRepo, GithubRepoSummary, GithubSocialAccount, GithubUser } from "./api";
 
 export function avatarUrl(url: string, size = 160): string {
   try {
@@ -61,4 +67,78 @@ export function mapRepo(repo: GithubRepo, current: RepositoryContent): Repositor
     showLanguage: Boolean(repo.language),
     showLicense: Boolean(license),
   };
+}
+
+/** Count the user's own, non-archived repositories by primary language. */
+export function repoLanguageCounts(repos: GithubRepoSummary[]): Record<string, number> {
+  const counts: Record<string, number> = {};
+  for (const repo of repos) {
+    if (repo.fork || repo.archived || !repo.language) continue;
+    counts[repo.language] = (counts[repo.language] ?? 0) + 1;
+  }
+  return counts;
+}
+
+/** Largest languages first; anything past `limit - 1` entries is folded into "Other". */
+export function mapLanguages(weights: Record<string, number>, limit = 8): LanguageEntry[] {
+  const sorted = Object.entries(weights)
+    .filter(([, value]) => Number.isFinite(value) && value > 0)
+    .sort((a, b) => b[1] - a[1]);
+  const head = sorted.length > limit ? sorted.slice(0, limit - 1) : sorted;
+  const rest = sorted.slice(head.length).reduce((sum, [, value]) => sum + value, 0);
+  const entries = head.map(([name, value], i) => ({
+    id: `gh-${i}-${name}`,
+    name,
+    value,
+    color: languageColor(name),
+  }));
+  if (rest > 0) entries.push({ id: "gh-other", name: "Other", value: rest, color: "#8b8b85" });
+  return entries;
+}
+
+function stripUrl(url: string): string {
+  return url
+    .trim()
+    .replace(/^https?:\/\//i, "")
+    .replace(/^www\./i, "")
+    .replace(/\/+$/, "");
+}
+
+const PROVIDERS: Record<string, SocialPlatform> = {
+  linkedin: "linkedin",
+  mastodon: "mastodon",
+  youtube: "youtube",
+  instagram: "instagram",
+};
+
+/** Mastodon profile URLs (https://host/@user) read better as @user@host. */
+function mastodonHandle(url: string): string {
+  const match = stripUrl(url).match(/^([^/]+)\/@([^/]+)$/);
+  return match ? `@${match[2]}@${match[1]}` : stripUrl(url);
+}
+
+/** Build contact links from a GitHub profile and its listed social accounts. */
+export function mapContactLinks(user: GithubUser, accounts: GithubSocialAccount[]): SocialLink[] {
+  const links: SocialLink[] = [{ id: `gh-${user.login}`, platform: "github", handle: user.login }];
+  if (user.twitter_username) {
+    links.push({
+      id: `x-${user.twitter_username}`,
+      platform: "x",
+      handle: `@${user.twitter_username}`,
+    });
+  }
+  for (const [i, account] of accounts.entries()) {
+    if (account.provider === "twitter") {
+      const name = stripUrl(account.url).split("/").pop();
+      if (!user.twitter_username && name)
+        links.push({ id: `sa-${i}`, platform: "x", handle: `@${name}` });
+      continue;
+    }
+    const platform = PROVIDERS[account.provider] ?? "link";
+    const handle = platform === "mastodon" ? mastodonHandle(account.url) : stripUrl(account.url);
+    if (handle) links.push({ id: `sa-${i}`, platform, handle });
+  }
+  if (user.email) links.push({ id: "email", platform: "email", handle: user.email });
+  if (user.blog?.trim()) links.push({ id: "blog", platform: "link", handle: stripUrl(user.blog) });
+  return links;
 }

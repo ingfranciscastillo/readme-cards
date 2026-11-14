@@ -5,18 +5,9 @@ import { type Block, divider, renderStack, stackHeight } from "../lib/svg/layout
 import { type SafeSvg, svg } from "../lib/svg/markup";
 import { compactNumber, truncate, wrapText } from "../lib/svg/text";
 import type { CardTemplate } from "../types/card";
-import type { ProfileContent, SocialPlatform } from "../types/content";
+import type { ProfileContent } from "../types/content";
 import { finishCard, initials, isDataImage, PAPER_STYLE } from "./shared";
-
-export const SOCIAL_PLATFORMS: { value: SocialPlatform; label: string; icon: IconName }[] = [
-  { value: "github", label: "GitHub", icon: "github" },
-  { value: "x", label: "X", icon: "x" },
-  { value: "linkedin", label: "LinkedIn", icon: "linkedin" },
-  { value: "mastodon", label: "Mastodon", icon: "mastodon" },
-  { value: "youtube", label: "YouTube", icon: "youtube" },
-  { value: "email", label: "Email", icon: "mail" },
-  { value: "link", label: "Link", icon: "link" },
-];
+import { socialPlatform } from "./socials";
 
 function avatarBlock(ctx: RenderContext, c: ProfileContent, x: number, size: number): Block {
   const s = ctx.style;
@@ -141,8 +132,7 @@ function textColumn(ctx: RenderContext, c: ProfileContent, left: number, width: 
     for (const social of c.socials) {
       const handle = social.handle.trim();
       if (!handle) continue;
-      const platform = SOCIAL_PLATFORMS.find((p) => p.value === social.platform);
-      meta.push(item(platform?.icon ?? "link", handle));
+      meta.push(item(socialPlatform(social.platform).icon, handle));
     }
   }
 

@@ -1,10 +1,16 @@
 import type { CardConfig, TemplateId } from "../../../types/card";
 import type {
+  BannerContent,
+  ContactContent,
+  LanguagesContent,
   ProfileContent,
   QuoteContent,
   RepositoryContent,
   StackContent,
 } from "../../../types/content";
+import { BannerEditor } from "./BannerEditor";
+import { ContactEditor } from "./ContactEditor";
+import { LanguagesEditor } from "./LanguagesEditor";
 import { ProfileEditor } from "./ProfileEditor";
 import { QuoteEditor } from "./QuoteEditor";
 import { RepositoryEditor } from "./RepositoryEditor";
@@ -35,5 +41,11 @@ export function ContentEditor({
       );
     case "stack":
       return <StackEditor content={config.content as StackContent} update={update} />;
+    case "banner":
+      return <BannerEditor content={config.content as BannerContent} update={update} />;
+    case "contact":
+      return <ContactEditor content={config.content as ContactContent} update={update} />;
+    case "languages":
+      return <LanguagesEditor content={config.content as LanguagesContent} update={update} />;
   }
 }

@@ -1,4 +1,7 @@
 import type { CardTemplate, TemplateId } from "../types/card";
+import { bannerTemplate } from "./banner";
+import { contactTemplate } from "./contact";
+import { languagesTemplate } from "./languages";
 import { profileTemplate } from "./profile";
 import { quoteTemplate } from "./quote";
 import { repositoryTemplate } from "./repository";
@@ -10,8 +13,11 @@ import { stackTemplate } from "./stack";
  */
 export const TEMPLATES = [
   profileTemplate,
+  bannerTemplate,
+  contactTemplate,
   repositoryTemplate,
   stackTemplate,
+  languagesTemplate,
   quoteTemplate,
 ] as unknown as CardTemplate<unknown>[];
 

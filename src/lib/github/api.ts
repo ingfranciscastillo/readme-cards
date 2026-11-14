@@ -9,6 +9,8 @@ export interface GithubUser {
   location: string | null;
   blog: string | null;
   twitter_username: string | null;
+  /** Only present when the user made their email public. */
+  email?: string | null;
   avatar_url: string;
   followers: number;
   following: number;
@@ -155,6 +157,52 @@ export function fetchUser(username: string, signal?: AbortSignal): Promise<Githu
 export function fetchRepo(owner: string, repo: string, signal?: AbortSignal): Promise<GithubRepo> {
   return request<GithubRepo>(
     `/repos/${encodeURIComponent(owner)}/${encodeURIComponent(repo)}`,
+    signal,
+  );
+}
+
+export interface GithubRepoSummary {
+  name: string;
+  fork: boolean;
+  archived: boolean;
+  language: string | null;
+}
+
+export interface GithubSocialAccount {
+  provider: string;
+  url: string;
+}
+
+/** Up to 100 of the user's own public repositories, most recently pushed first. */
+export function fetchUserRepos(
+  username: string,
+  signal?: AbortSignal,
+): Promise<GithubRepoSummary[]> {
+  return request<GithubRepoSummary[]>(
+    `/users/${encodeURIComponent(username)}/repos?per_page=100&type=owner&sort=pushed`,
+    signal,
+  );
+}
+
+/** Bytes of code per language, as GitHub's linguist counts them. */
+export function fetchRepoLanguages(
+  owner: string,
+  repo: string,
+  signal?: AbortSignal,
+): Promise<Record<string, number>> {
+  return request<Record<string, number>>(
+    `/repos/${encodeURIComponent(owner)}/${encodeURIComponent(repo)}/languages`,
+    signal,
+  );
+}
+
+/** Social accounts listed on the user's GitHub profile. */
+export function fetchSocialAccounts(
+  username: string,
+  signal?: AbortSignal,
+): Promise<GithubSocialAccount[]> {
+  return request<GithubSocialAccount[]>(
+    `/users/${encodeURIComponent(username)}/social_accounts`,
     signal,
   );
 }

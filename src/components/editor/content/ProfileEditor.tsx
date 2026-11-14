@@ -1,14 +1,14 @@
-import { MediaImage, Plus, Trash, Upload } from "iconoir-react";
+import { MediaImage, Upload } from "iconoir-react";
 import { useId, useRef, useState } from "react";
 import { avatarUrl, mapUser } from "../../../lib/github/map";
 import { imageToDataUri } from "../../../lib/image";
-import { SOCIAL_PLATFORMS } from "../../../templates/profile";
 import { isDataImage } from "../../../templates/shared";
-import type { AvatarShape, ProfileContent, SocialPlatform } from "../../../types/content";
-import { Button, IconButton } from "../../ui/Button";
+import type { AvatarShape, ProfileContent } from "../../../types/content";
+import { Button } from "../../ui/Button";
 import { Group, Segmented, TextField, Toggle } from "../../ui/fields";
 import { GithubImport } from "../GithubImport";
 import { type ContentEditorProps, NumberInput, OptionalInput, ShowSwitch } from "./common";
+import { SocialLinksEditor } from "./SocialLinksEditor";
 
 const MAX_SOCIALS = 6;
 
@@ -101,87 +101,6 @@ function AvatarControls({ content, update }: ContentEditorProps<ProfileContent>)
   );
 }
 
-function Socials({ content, update }: ContentEditorProps<ProfileContent>) {
-  const id = useId();
-  const setSocial = (index: number, patch: Partial<ProfileContent["socials"][number]>) => {
-    update({ socials: content.socials.map((s, i) => (i === index ? { ...s, ...patch } : s)) });
-  };
-  return (
-    <div className="flex flex-col gap-2">
-      <div className="flex items-center justify-between">
-        <span id={id} className="text-[12px] font-medium text-ink-2">
-          Social links
-        </span>
-        <ShowSwitch
-          label="social links"
-          checked={content.showSocials}
-          onChange={(showSocials) => update({ showSocials })}
-        />
-      </div>
-      {content.socials.length > 0 ? (
-        <ul
-          className={`flex flex-col gap-2 ${content.showSocials ? "" : "opacity-55"}`}
-          aria-labelledby={id}
-        >
-          {content.socials.map((social, index) => (
-            <li key={social.id} className="flex gap-2">
-              <select
-                aria-label={`Platform for link ${index + 1}`}
-                className="control w-[112px] shrink-0 cursor-pointer"
-                value={social.platform}
-                onChange={(e) => setSocial(index, { platform: e.target.value as SocialPlatform })}
-              >
-                {SOCIAL_PLATFORMS.map((p) => (
-                  <option key={p.value} value={p.value}>
-                    {p.label}
-                  </option>
-                ))}
-              </select>
-              <input
-                aria-label={`Handle for link ${index + 1}`}
-                className="control"
-                value={social.handle}
-                maxLength={80}
-                spellCheck={false}
-                placeholder="handle or address"
-                onChange={(e) => setSocial(index, { handle: e.target.value })}
-              />
-              <IconButton
-                label={`Remove link ${index + 1}`}
-                className="mt-0.5"
-                onClick={() => update({ socials: content.socials.filter((_, i) => i !== index) })}
-              >
-                <Trash width={14} height={14} aria-hidden />
-              </IconButton>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p className="text-[11.5px] text-ink-3">No links yet. Add where people can find you.</p>
-      )}
-      <div>
-        <Button
-          size="sm"
-          variant="ghost"
-          icon={<Plus width={13} height={13} aria-hidden />}
-          disabled={content.socials.length >= MAX_SOCIALS}
-          onClick={() =>
-            update({
-              showSocials: true,
-              socials: [
-                ...content.socials,
-                { id: `s${Date.now().toString(36)}`, platform: "link", handle: "" },
-              ],
-            })
-          }
-        >
-          {content.socials.length >= MAX_SOCIALS ? `Up to ${MAX_SOCIALS} links` : "Add link"}
-        </Button>
-      </div>
-    </div>
-  );
-}
-
 export function ProfileEditor({ content, update }: ContentEditorProps<ProfileContent>) {
   const statsId = useId();
   return (
@@ -248,7 +167,16 @@ export function ProfileEditor({ content, update }: ContentEditorProps<ProfileCon
           onChange={(website) => update({ website })}
           hint="Shown as text: images in a README aren't clickable. Wrap the Markdown in a link if you need one."
         />
-        <Socials content={content} update={update} />
+        <SocialLinksEditor
+          label="Social links"
+          links={content.socials}
+          max={MAX_SOCIALS}
+          shown={content.showSocials}
+          onShown={(showSocials) => update({ showSocials })}
+          onChange={(socials, options) =>
+            update(options?.reveal ? { socials, showSocials: true } : { socials })
+          }
+        />
       </Group>
       <Group title="Stats">
         <Toggle

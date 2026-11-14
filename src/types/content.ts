@@ -1,9 +1,17 @@
 export type SocialPlatform =
   | "github"
+  | "gitlab"
   | "x"
   | "linkedin"
   | "mastodon"
+  | "threads"
+  | "instagram"
   | "youtube"
+  | "discord"
+  | "telegram"
+  | "medium"
+  | "dribbble"
+  | "codepen"
   | "email"
   | "link";
 
@@ -70,4 +78,39 @@ export interface StackContent {
   showSubtitle: boolean;
   /** One item per line or comma separated. */
   items: string;
+}
+
+export interface BannerContent {
+  eyebrow: string;
+  title: string;
+  subtitle: string;
+  /** One item per line or comma separated. */
+  tags: string;
+  showEyebrow: boolean;
+  showSubtitle: boolean;
+  showTags: boolean;
+}
+
+export interface LanguageEntry {
+  id: string;
+  name: string;
+  /** Any non-negative weight (bytes, repo count or a percentage); shares are computed from the total. */
+  value: number;
+  color: string;
+}
+
+export interface LanguagesContent {
+  title: string;
+  showTitle: boolean;
+  showPercent: boolean;
+  languages: LanguageEntry[];
+}
+
+export interface ContactContent {
+  title: string;
+  subtitle: string;
+  showTitle: boolean;
+  showSubtitle: boolean;
+  showPlatform: boolean;
+  links: SocialLink[];
 }

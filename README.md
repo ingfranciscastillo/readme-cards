@@ -22,10 +22,17 @@ There's no backend and no account. Everything runs in your browser. The only net
 
 ## Features
 
-- **4 templates, 10 layouts**: Profile (side by side, stacked), Repository (classic, spotlight), Tech Stack (outlined tags, solid tags, inline list) and Quote (quotation mark, side rule, plain).
+- **7 templates, 19 layouts**:
+  - Profile (side by side, stacked)
+  - Banner (classic, accent rule, split): a wide header for the top of your README
+  - Contact (rows, grid, inline): social profiles, email and website with their icons
+  - Repository (classic, spotlight)
+  - Tech Stack (outlined tags, solid tags, inline list)
+  - Languages (stacked bar, bars, donut)
+  - Quote (quotation mark, side rule, plain)
 - **Live editor** with Content, Appearance, Type and Layout tabs. Every change re-renders the card immediately.
 - **Accurate preview** with zoom (fit, 1:1, steps) and transparent, light or dark backgrounds that approximate GitHub's themes.
-- **Import from GitHub**: paste `octocat`, `@octocat`, `owner/repo` or a full URL to fill in the name, bio, avatar, stars, language and more.
+- **Import from GitHub**: paste `octocat`, `@octocat`, `owner/repo` or a full URL to fill in the name, bio, avatar, stars and more. The Contact card picks up the social accounts listed on your profile, and the Languages card reads a repository's language breakdown or counts your public repositories by main language.
 - **Self-contained export**: fonts and avatar are embedded, so the card looks the same through GitHub's image proxy. No remote URLs, no `<foreignObject>`.
 - **Ready-to-paste snippets** in Markdown or HTML. Choose the filename and see the dimensions and file size before you download.
 - **Your work is kept** in `localStorage` between visits, and any template can be reset to its defaults.

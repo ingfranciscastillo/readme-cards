@@ -1,14 +1,22 @@
 import book from "iconoir/icons/regular/book.svg?raw";
+import codepen from "iconoir/icons/regular/codepen.svg?raw";
+import discord from "iconoir/icons/regular/discord.svg?raw";
+import dribbble from "iconoir/icons/regular/dribbble.svg?raw";
 import gitFork from "iconoir/icons/regular/git-fork.svg?raw";
 import github from "iconoir/icons/regular/github.svg?raw";
+import gitlab from "iconoir/icons/regular/gitlab-full.svg?raw";
 import globe from "iconoir/icons/regular/globe.svg?raw";
+import instagram from "iconoir/icons/regular/instagram.svg?raw";
 import link from "iconoir/icons/regular/link.svg?raw";
 import linkedin from "iconoir/icons/regular/linkedin.svg?raw";
 import mail from "iconoir/icons/regular/mail.svg?raw";
 import mapPin from "iconoir/icons/regular/map-pin.svg?raw";
 import mastodon from "iconoir/icons/regular/mastodon.svg?raw";
+import medium from "iconoir/icons/regular/medium.svg?raw";
 import page from "iconoir/icons/regular/page.svg?raw";
 import star from "iconoir/icons/regular/star.svg?raw";
+import telegram from "iconoir/icons/regular/telegram.svg?raw";
+import threads from "iconoir/icons/regular/threads.svg?raw";
 import x from "iconoir/icons/regular/x.svg?raw";
 import youtube from "iconoir/icons/regular/youtube.svg?raw";
 import quote from "iconoir/icons/solid/quote.svg?raw";
@@ -25,16 +33,24 @@ function inner(source: string): string {
 
 const ICONS = {
   book: inner(book),
+  codepen: inner(codepen),
+  discord: inner(discord),
+  dribbble: inner(dribbble),
   fork: inner(gitFork),
   github: inner(github),
+  gitlab: inner(gitlab),
   globe: inner(globe),
+  instagram: inner(instagram),
   link: inner(link),
   linkedin: inner(linkedin),
   mail: inner(mail),
   pin: inner(mapPin),
   mastodon: inner(mastodon),
+  medium: inner(medium),
   page: inner(page),
   star: inner(star),
+  telegram: inner(telegram),
+  threads: inner(threads),
   x: inner(x),
   youtube: inner(youtube),
   quote: inner(quote),

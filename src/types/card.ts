@@ -13,7 +13,14 @@ export type Align = "left" | "center" | "right";
 
 export type CategoryId = "profile" | "repository" | "developer" | "creative";
 
-export type TemplateId = "profile" | "repository" | "stack" | "quote";
+export type TemplateId =
+  | "profile"
+  | "banner"
+  | "contact"
+  | "repository"
+  | "stack"
+  | "languages"
+  | "quote";
 
 /** Appearance, typography and layout settings shared by every template. */
 export interface CardStyle {
