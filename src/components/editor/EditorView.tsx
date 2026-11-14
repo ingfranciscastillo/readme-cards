@@ -7,6 +7,7 @@ import { getTemplate } from "../../templates";
 import type { CardConfig, CardStyle, TemplateId } from "../../types/card";
 import { CATEGORIES } from "../../types/card";
 import { ExportPanel } from "../export/ExportPanel";
+import { GithubLink } from "../GithubLink";
 import { PreviewPane } from "../preview/PreviewPane";
 import { Button } from "../ui/Button";
 import { Wordmark } from "../Wordmark";
@@ -151,6 +152,8 @@ export function EditorView({
           <span className="sr-only" aria-live="polite">
             {confirmReset ? "Press reset again to restore the template defaults." : ""}
           </span>
+          <span className="h-5 w-px bg-line" />
+          <GithubLink />
         </div>
       </header>
 

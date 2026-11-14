@@ -5,6 +5,7 @@ import type { AppState } from "../../state/store";
 import { TEMPLATES } from "../../templates";
 import { CATEGORIES, type CardConfig, type CategoryId, type TemplateId } from "../../types/card";
 import { CardSvg } from "../CardSvg";
+import { GithubLink } from "../GithubLink";
 import { Wordmark } from "../Wordmark";
 
 const THUMB_MAX_WIDTH = 440;
@@ -63,9 +64,12 @@ export function Gallery({
       <header className="border-b border-line">
         <div className="mx-auto flex h-14 max-w-[1120px] items-center justify-between px-5">
           <Wordmark />
-          <span className="hidden font-mono text-[11px] text-ink-3 sm:block">
-            Runs in your browser · no account · exports standalone SVG
-          </span>
+          <div className="flex items-center gap-4">
+            <span className="hidden font-mono text-[11px] text-ink-3 sm:block">
+              Runs in your browser · no account · exports standalone SVG
+            </span>
+            <GithubLink />
+          </div>
         </div>
       </header>
 
