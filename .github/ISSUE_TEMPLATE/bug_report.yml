@@ -1,0 +1,83 @@
+name: Bug report
+description: Something in the app or in an exported card isn't working.
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report this. The more precise the steps, the faster it gets fixed.
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Describe the problem. If the card looks wrong, say what you expected to see instead.
+      placeholder: After importing my profile, the bio overflows the card.
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open the Profile template
+        2. Import `octocat`
+        3. Switch to the Stacked layout
+        4. ...
+    validations:
+      required: true
+
+  - type: dropdown
+    id: template
+    attributes:
+      label: Template
+      options:
+        - Profile
+        - Banner
+        - Contact
+        - Repository
+        - Tech Stack
+        - Languages
+        - Quote
+        - Not specific to a template
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Where does it happen?
+      multiple: true
+      options:
+        - Editor (content, appearance, type or layout)
+        - Live preview
+        - Export (download, copy, snippets)
+        - GitHub import
+        - The exported .svg shown on GitHub
+        - The exported .svg in another viewer
+    validations:
+      required: true
+
+  - type: input
+    id: browser
+    attributes:
+      label: Browser and OS
+      placeholder: Chrome 142 on macOS 15
+    validations:
+      required: true
+
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Screenshots or the exported SVG
+      description: Drag in a screenshot, or attach the `.svg` file (zip it if GitHub refuses the upload). Console errors help too.
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before you submit
+      options:
+        - label: I searched the existing issues and this hasn't been reported yet.
+          required: true

@@ -1,0 +1,62 @@
+name: Template or layout request
+description: Suggest a new card template, or a new layout for an existing one.
+title: "[Template]: "
+labels: ["new template"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Missing a card for your README? Describe it below. A rough sketch or a link to a README that does something similar helps a lot.
+
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What are you asking for?
+      options:
+        - A new template
+        - A new layout for an existing template
+    validations:
+      required: true
+
+  - type: textarea
+    id: idea
+    attributes:
+      label: What should the card show?
+      description: The content and what it's for. Who would put it in their README?
+      placeholder: A "Currently" card with what I'm working on, learning and reading, each with an icon.
+    validations:
+      required: true
+
+  - type: textarea
+    id: fields
+    attributes:
+      label: Fields and options
+      description: The text, lists, toggles or images someone would fill in.
+      placeholder: |
+        - Title
+        - Up to 4 rows, each with a label and a value
+        - Toggle to hide the icons
+
+  - type: dropdown
+    id: github
+    attributes:
+      label: Could it be filled from GitHub?
+      description: Only data from GitHub's public REST API, without a token.
+      options:
+        - "No, it's filled in by hand"
+        - Yes, from a user profile
+        - Yes, from a repository
+        - Not sure
+
+  - type: textarea
+    id: example
+    attributes:
+      label: Sketch or examples
+      description: A drawing, a screenshot or a link to a README with something similar.
+
+  - type: checkboxes
+    id: contribute
+    attributes:
+      label: Contributing
+      options:
+        - label: I'd like to build it myself (see "Adding a template" in the README).
