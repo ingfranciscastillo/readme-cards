@@ -16,7 +16,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - The header wordmark shows only the name, without the icon.
-- Rewrote the README with a live demo link, usage guide and architecture overview.
+- Rewrote the README with a live demo link, an animated walkthrough, usage guide and
+  architecture overview.
 
 ### Fixed
 

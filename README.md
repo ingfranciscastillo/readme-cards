@@ -12,7 +12,7 @@
 
 [**Open the app**](https://ingfranciscastillo.github.io/readme-cards/) · [Features](#features) · [How it works](#how-it-works) · [Run locally](#run-locally)
 
-<img src="docs/editor.jpg" alt="The Readme Cards editor: settings on the left, live card preview in the middle, export options on the right" width="800" />
+<img src="docs/demo.gif" alt="Demo: open the Profile template, import the octocat GitHub profile, switch to a dark palette, change the layout and copy the Markdown snippet" width="800" />
 
 </div>
 
