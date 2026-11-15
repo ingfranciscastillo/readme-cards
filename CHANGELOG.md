@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- 14 more fonts: Inter, IBM Plex Sans, DM Sans, Manrope, Space Grotesk, Bricolage Grotesque,
+  Fraunces, Playfair Display, Source Serif 4, Lora, JetBrains Mono, IBM Plex Mono, Fira Code
+  and Space Mono. They are embedded in the export like the existing ones.
+- The font picker groups fonts into sans serif, serif, monospace and system, and shows the
+  chosen font's name in that font.
+
+### Changed
+
+- Fonts download on demand, only the faces a card uses, instead of all at startup.
+
 ## [0.2.0] - 2026-11-14
 
 ### Added

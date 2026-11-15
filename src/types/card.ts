@@ -3,8 +3,22 @@ import type { SafeSvg } from "../lib/svg/markup";
 
 export type FontId =
   | "geist"
-  | "geist-mono"
+  | "inter"
+  | "ibm-plex-sans"
+  | "dm-sans"
+  | "manrope"
+  | "space-grotesk"
+  | "bricolage-grotesque"
   | "instrument-serif"
+  | "fraunces"
+  | "playfair-display"
+  | "source-serif-4"
+  | "lora"
+  | "geist-mono"
+  | "jetbrains-mono"
+  | "ibm-plex-mono"
+  | "fira-code"
+  | "space-mono"
   | "system-sans"
   | "system-serif"
   | "system-mono";

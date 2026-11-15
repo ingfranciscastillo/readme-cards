@@ -28,7 +28,7 @@ export function QuoteEditor({
           description={
             italicAvailable
               ? undefined
-              : `${FONTS[displayFont].label} has no italic. Pick Instrument Serif or a system font in Typography.`
+              : `${FONTS[displayFont].label} has no italic. Pick a font with italics, such as Instrument Serif or Lora, in Typography.`
           }
           onChange={(italic) => update({ italic })}
         />

@@ -1,7 +1,8 @@
 import { ArrowRight } from "iconoir-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { toSvgDocument } from "../../lib/svg/document";
 import type { AppState } from "../../state/store";
+import { requestFaces } from "../../state/useFontsVersion";
 import { TEMPLATES } from "../../templates";
 import { CATEGORIES, type CardConfig, type CategoryId, type TemplateId } from "../../types/card";
 import { CardSvg } from "../CardSvg";
@@ -29,6 +30,9 @@ function Thumbnail({
     const card = template.render(config, { idPrefix: prefix });
     return { card, markup: toSvgDocument(card, { idPrefix: prefix }) };
   }, [template, templateId, config, fontsVersion]);
+  useEffect(() => {
+    if (rendered) requestFaces(rendered.card.faces);
+  }, [rendered]);
   if (!rendered) return null;
   const { card, markup } = rendered;
   const scale = Math.min(1, THUMB_MAX_WIDTH / card.width, THUMB_MAX_HEIGHT / card.height);

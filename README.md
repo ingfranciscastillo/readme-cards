@@ -31,6 +31,7 @@ There's no backend and no account. Everything runs in your browser. The only net
   - Languages (stacked bar, bars, donut)
   - Quote (quotation mark, side rule, plain)
 - **Live editor** with Content, Appearance, Type and Layout tabs. Every change re-renders the card immediately.
+- **17 open-source fonts** to embed, among them Inter, IBM Plex, Fraunces, Playfair Display, Lora, JetBrains Mono and Fira Code, plus system font stacks.
 - **Accurate preview** with zoom (fit, 1:1, steps) and transparent, light or dark backgrounds that approximate GitHub's themes.
 - **Import from GitHub**: paste `octocat`, `@octocat`, `owner/repo` or a full URL to fill in the name, bio, avatar, stars and more. The Contact card picks up the social accounts listed on your profile, and the Languages card reads a repository's language breakdown or counts your public repositories by main language.
 - **Self-contained export**: fonts and avatar are embedded, so the card looks the same through GitHub's image proxy. No remote URLs, no `<foreignObject>`.
@@ -62,7 +63,7 @@ The SVG string is the source of truth. React only renders the editor around it.
 - **Templates are pure functions** (`src/templates/`) that turn a config into SVG markup. The preview shows that exact string and the export wraps the same card in a standalone document.
 - **Escape by default**: markup is built with a small tagged template (`src/lib/svg/markup.ts`) that XML-escapes every interpolated value, so user text can't break the file.
 - **Text layout by hand**: SVG has no text wrapping, so text is measured on a canvas against the loaded fonts and wrapped deterministically (`src/lib/svg/text.ts`). Blocks are stacked and rows flowed in `layout.ts` and `flow.ts`, which also gives the auto height.
-- **Embedded fonts**: on export, only the font faces the card uses are embedded as base64 woff2 (Latin subset). System fonts are never embedded, and embedding can be turned off for a smaller file.
+- **Embedded fonts**: fonts download on demand, only the faces the card uses, and on export those same faces are embedded as base64 woff2 (Latin subset). System fonts are never embedded, and embedding can be turned off for a smaller file.
 - **Embedded images**: avatars are cropped to 160 px and stored as `data:` URIs, JPEG when opaque and PNG when transparent. Without an image, initials are drawn instead.
 - **Validation**: every export is parsed as XML and checked for namespace, dimensions, external references and `foreignObject`.
 
@@ -120,4 +121,4 @@ src/
 
 ## Built with
 
-[Vite](https://vite.dev/) · [React](https://react.dev/) · [TypeScript](https://www.typescriptlang.org/) · [Tailwind CSS v4](https://tailwindcss.com/) · [Iconoir](https://iconoir.com/) · [Fontsource](https://fontsource.org/) (Geist Sans, Geist Mono, Instrument Serif) · [Biome](https://biomejs.dev/)
+[Vite](https://vite.dev/) · [React](https://react.dev/) · [TypeScript](https://www.typescriptlang.org/) · [Tailwind CSS v4](https://tailwindcss.com/) · [Iconoir](https://iconoir.com/) · [Fontsource](https://fontsource.org/) · [Biome](https://biomejs.dev/)

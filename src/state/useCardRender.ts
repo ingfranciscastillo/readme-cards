@@ -5,6 +5,7 @@ import { toSvgDocument } from "../lib/svg/document";
 import { buildFontCss, prefetchFonts } from "../lib/svg/fontEmbed";
 import { type ValidationResult, validateSvg } from "../lib/svg/validate";
 import type { CardConfig, CardTemplate, RenderedCard } from "../types/card";
+import { requestFaces } from "./useFontsVersion";
 
 export const PREVIEW_ID_PREFIX = "rc";
 
@@ -13,12 +14,14 @@ export function useRenderedCard(
   config: CardConfig<unknown>,
   fontsVersion: number,
 ): { card: RenderedCard; markup: string } {
-  return useMemo(() => {
+  const rendered = useMemo(() => {
     // fontsVersion invalidates measurements taken before fonts loaded.
     void fontsVersion;
     const card = template.render(config, { idPrefix: PREVIEW_ID_PREFIX });
     return { card, markup: toSvgDocument(card, { idPrefix: PREVIEW_ID_PREFIX }) };
   }, [template, config, fontsVersion]);
+  useEffect(() => requestFaces(rendered.card.faces), [rendered.card.faces]);
+  return rendered;
 }
 
 export interface ExportState {
