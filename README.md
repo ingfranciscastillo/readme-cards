@@ -95,6 +95,7 @@ Then open http://localhost:5173.
 | `pnpm preview`   | Serve the production build locally              |
 | `pnpm typecheck` | Run the TypeScript compiler                     |
 | `pnpm check`     | Lint and check formatting with Biome            |
+| `pnpm test`      | Run the unit tests with Vitest                  |
 | `pnpm format`    | Apply Biome fixes and formatting                |
 
 The build uses relative asset paths, so `dist/` can be hosted from any static host or sub-path. Every push to `main` deploys to GitHub Pages through [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml).

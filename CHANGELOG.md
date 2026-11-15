@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Unit tests with Vitest: every template and variant exports a valid SVG in light, dark and
+  transparent setups, plus dark-mode colour mapping, validation, saved-data sanitising and
+  GitHub input parsing. They run in CI before every build.
+
 ## [0.3.0] - 2026-11-15
 
 ### Added
