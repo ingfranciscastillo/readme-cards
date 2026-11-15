@@ -4,6 +4,7 @@ import type { FontFaceUse } from "../lib/fonts";
 import { toSvgDocument } from "../lib/svg/document";
 import { buildFontCss, prefetchFonts } from "../lib/svg/fontEmbed";
 import { type ValidationResult, validateSvg } from "../lib/svg/validate";
+import { renderCard } from "../templates";
 import type { CardConfig, CardTemplate, RenderedCard } from "../types/card";
 import { requestFaces } from "./useFontsVersion";
 
@@ -13,13 +14,14 @@ export function useRenderedCard(
   template: CardTemplate<unknown>,
   config: CardConfig<unknown>,
   fontsVersion: number,
+  scheme: "light" | "dark" = "light",
 ): { card: RenderedCard; markup: string } {
   const rendered = useMemo(() => {
     // fontsVersion invalidates measurements taken before fonts loaded.
     void fontsVersion;
-    const card = template.render(config, { idPrefix: PREVIEW_ID_PREFIX });
-    return { card, markup: toSvgDocument(card, { idPrefix: PREVIEW_ID_PREFIX }) };
-  }, [template, config, fontsVersion]);
+    const card = renderCard(template, config, { idPrefix: PREVIEW_ID_PREFIX });
+    return { card, markup: toSvgDocument(card, { idPrefix: PREVIEW_ID_PREFIX, scheme }) };
+  }, [template, config, fontsVersion, scheme]);
   useEffect(() => requestFaces(rendered.card.faces), [rendered.card.faces]);
   return rendered;
 }
@@ -39,7 +41,10 @@ export interface ExportState {
  * effect so clipboard writes can happen synchronously on click.
  */
 export function useExportedSvg(card: RenderedCard, embedFonts: boolean): ExportState {
-  const plain = useMemo(() => toSvgDocument(card, { idPrefix: PREVIEW_ID_PREFIX }), [card]);
+  const plain = useMemo(
+    () => toSvgDocument(card, { idPrefix: PREVIEW_ID_PREFIX, scheme: "auto" }),
+    [card],
+  );
   const [state, setState] = useState<ExportState>(() => ({
     status: "building",
     source: plain,
@@ -69,7 +74,10 @@ export function useExportedSvg(card: RenderedCard, embedFonts: boolean): ExportS
     const timer = window.setTimeout(() => {
       buildFontCss(card.faces)
         .then(({ css, system }) =>
-          finish(toSvgDocument(card, { idPrefix: PREVIEW_ID_PREFIX, fontCss: css }), system),
+          finish(
+            toSvgDocument(card, { idPrefix: PREVIEW_ID_PREFIX, fontCss: css, scheme: "auto" }),
+            system,
+          ),
         )
         .catch((err: Error) =>
           finish(plain, card.faces, `Fonts could not be embedded (${err.message}).`),

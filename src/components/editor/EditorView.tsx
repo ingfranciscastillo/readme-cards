@@ -49,14 +49,18 @@ export function EditorView({
   const exportRef = useRef<HTMLElement>(null);
   useEffect(() => () => window.clearTimeout(resetTimer.current), []);
 
-  const { card, markup } = useRenderedCard(template, config, fontsVersion);
+  const previewScheme = state.previewBackground === "dark" ? "dark" : "light";
+  const { card, markup } = useRenderedCard(template, config, fontsVersion, previewScheme);
   const exported = useExportedSvg(card, state.embedFonts);
   const edited = state.configs[templateId] !== undefined;
 
   const updateStyle = useCallback(
-    (patch: Partial<CardStyle>) =>
-      setConfig(templateId, (c) => ({ ...c, style: { ...c.style, ...patch } })),
-    [setConfig, templateId],
+    (patch: Partial<CardStyle>) => {
+      setConfig(templateId, (c) => ({ ...c, style: { ...c.style, ...patch } }));
+      // Show the dark colours as soon as they are turned on.
+      if (patch.darkMode) setPreviewBackground("dark");
+    },
+    [setConfig, templateId, setPreviewBackground],
   );
   const updateContent = useCallback(
     (patch: Record<string, unknown>) =>
@@ -93,6 +97,7 @@ export function EditorView({
       altText={template.altText(config)}
       embedFonts={state.embedFonts}
       onEmbedFonts={setEmbedFonts}
+      adaptive={card.darkColors.length > 0}
     />
   );
 

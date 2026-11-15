@@ -31,6 +31,7 @@ There's no backend and no account. Everything runs in your browser. The only net
   - Languages (stacked bar, bars, donut)
   - Quote (quotation mark, side rule, plain)
 - **Live editor** with Content, Appearance, Type and Layout tabs. Every change re-renders the card immediately.
+- **Light and dark mode in one file**: give a card dark colours and it follows the reader's GitHub theme. No `<picture>` tag or second file needed.
 - **17 open-source fonts** to embed, among them Inter, IBM Plex, Fraunces, Playfair Display, Lora, JetBrains Mono and Fira Code, plus system font stacks.
 - **Accurate preview** with zoom (fit, 1:1, steps) and transparent, light or dark backgrounds that approximate GitHub's themes.
 - **Import from GitHub**: paste `octocat`, `@octocat`, `owner/repo` or a full URL to fill in the name, bio, avatar, stars and more. The Contact card picks up the social accounts listed on your profile, and the Languages card reads a repository's language breakdown or counts your public repositories by main language.
@@ -54,6 +55,9 @@ There's no backend and no account. Everything runs in your browser. The only net
 > GitHub doesn't make images inside a README clickable. To link the card somewhere, wrap the snippet in a Markdown link: `[![alt](./card.svg)](https://example.com)`.
 
 > [!NOTE]
+> Dark mode follows the theme GitHub reports to the image. Chromium browsers (Chrome, Edge) use the theme picked in GitHub's settings; other browsers may follow the system theme instead.
+
+> [!NOTE]
 > The exported file is a snapshot. Numbers like stars or followers won't update on their own; export the card again to refresh them.
 
 ## How it works
@@ -65,6 +69,7 @@ The SVG string is the source of truth. React only renders the editor around it.
 - **Text layout by hand**: SVG has no text wrapping, so text is measured on a canvas against the loaded fonts and wrapped deterministically (`src/lib/svg/text.ts`). Blocks are stacked and rows flowed in `layout.ts` and `flow.ts`, which also gives the auto height.
 - **Embedded fonts**: fonts download on demand, only the faces the card uses, and on export those same faces are embedded as base64 woff2 (Latin subset). System fonts are never embedded, and embedding can be turned off for a smaller file.
 - **Embedded images**: avatars are cropped to 160 px and stored as `data:` URIs, JPEG when opaque and PNG when transparent. Without an image, initials are drawn instead.
+- **Dark mode by recolouring**: templates draw with the light colours, and a `prefers-color-scheme: dark` stylesheet maps each one to its dark counterpart by attribute value (`src/lib/svg/theme.ts`). The same markup serves both themes.
 - **Validation**: every export is parsed as XML and checked for namespace, dimensions, external references and `foreignObject`.
 
 > [!IMPORTANT]

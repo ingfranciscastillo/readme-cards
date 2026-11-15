@@ -20,6 +20,7 @@ export function ExportPanel({
   altText,
   embedFonts,
   onEmbedFonts,
+  adaptive,
 }: {
   exported: ExportState;
   width: number;
@@ -30,6 +31,8 @@ export function ExportPanel({
   altText: string;
   embedFonts: boolean;
   onEmbedFonts: (embed: boolean) => void;
+  /** The card carries dark-mode colours. */
+  adaptive: boolean;
 }) {
   const id = useId();
   const [snippetKind, setSnippetKind] = useState<"markdown" | "html">("markdown");
@@ -107,6 +110,11 @@ export function ExportPanel({
             {systemFonts.join(", ")}{" "}
             {systemFonts.length === 1 ? "is a system font" : "are system fonts"} and can't be
             embedded.
+          </p>
+        ) : null}
+        {adaptive ? (
+          <p className="-mt-2 text-[11.5px] text-ink-3">
+            Includes dark colours: one file follows the viewer's light or dark theme.
           </p>
         ) : null}
 

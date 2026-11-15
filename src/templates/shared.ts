@@ -1,6 +1,7 @@
 import type { RenderContext } from "../lib/svg/context";
 import { cardFrame, frameMetrics } from "../lib/svg/layout";
 import { type SafeSvg, svg } from "../lib/svg/markup";
+import { darkColorMap } from "../lib/svg/theme";
 import type { CardStyle, RenderedCard } from "../types/card";
 
 export const PAPER_STYLE: CardStyle = {
@@ -12,6 +13,11 @@ export const PAPER_STYLE: CardStyle = {
   showBorder: true,
   borderWidth: 1,
   radius: 10,
+  darkMode: false,
+  darkBackground: "#18191b",
+  darkText: "#ecece6",
+  darkAccent: "#7cc2bc",
+  darkBorder: "#2e3033",
   displayFont: "instrument-serif",
   bodyFont: "geist",
   fontSize: 14,
@@ -48,6 +54,7 @@ export function finishCard(
     defs: ctx.getDefs(),
     body: svg`${frame.background}<g clip-path="url(#${frame.clipId})">${content}</g>${frame.border}`,
     faces: ctx.getFaces(),
+    darkColors: darkColorMap(ctx.style),
     overflow: !ctx.style.autoHeight && opts.contentHeight + ctx.style.padding * 2 > height + 0.5,
   };
 }

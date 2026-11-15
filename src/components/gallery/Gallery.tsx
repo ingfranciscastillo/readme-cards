@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { toSvgDocument } from "../../lib/svg/document";
 import type { AppState } from "../../state/store";
 import { requestFaces } from "../../state/useFontsVersion";
-import { TEMPLATES } from "../../templates";
+import { renderCard, TEMPLATES } from "../../templates";
 import { CATEGORIES, type CardConfig, type CategoryId, type TemplateId } from "../../types/card";
 import { CardSvg } from "../CardSvg";
 import { GithubLink } from "../GithubLink";
@@ -27,7 +27,7 @@ function Thumbnail({
     if (!template) return null;
     // Unique id prefix: several cards share this page's id namespace.
     const prefix = `g-${templateId}`;
-    const card = template.render(config, { idPrefix: prefix });
+    const card = renderCard(template, config, { idPrefix: prefix });
     return { card, markup: toSvgDocument(card, { idPrefix: prefix }) };
   }, [template, templateId, config, fontsVersion]);
   useEffect(() => {

@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Dark mode: a card can carry dark colours and switch to them when the viewer uses a dark
+  theme, in the same SVG. Includes Ink, Night and GitHub dark palettes, and the Dark preview
+  background shows the dark version.
 - 14 more fonts: Inter, IBM Plex Sans, DM Sans, Manrope, Space Grotesk, Bricolage Grotesque,
   Fraunces, Playfair Display, Source Serif 4, Lora, JetBrains Mono, IBM Plex Mono, Fira Code
   and Space Mono. They are embedded in the export like the existing ones.

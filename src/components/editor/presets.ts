@@ -74,3 +74,43 @@ export const COLOR_PRESETS: ColorPreset[] = [
     },
   },
 ];
+
+export interface DarkPreset {
+  id: string;
+  label: string;
+  colors: Pick<CardStyle, "darkBackground" | "darkText" | "darkAccent" | "darkBorder">;
+}
+
+/** Palettes for a card's dark-mode colours. */
+export const DARK_PRESETS: DarkPreset[] = [
+  {
+    id: "ink",
+    label: "Ink",
+    colors: {
+      darkBackground: "#18191b",
+      darkText: "#ecece6",
+      darkAccent: "#7cc2bc",
+      darkBorder: "#2e3033",
+    },
+  },
+  {
+    id: "night",
+    label: "Night",
+    colors: {
+      darkBackground: "#0e1217",
+      darkText: "#e4e8ee",
+      darkAccent: "#e0a458",
+      darkBorder: "#262c35",
+    },
+  },
+  {
+    id: "github",
+    label: "GitHub",
+    colors: {
+      darkBackground: "#0d1117",
+      darkText: "#e6edf3",
+      darkAccent: "#4493f8",
+      darkBorder: "#30363d",
+    },
+  },
+];

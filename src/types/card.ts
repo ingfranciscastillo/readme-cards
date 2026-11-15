@@ -47,6 +47,12 @@ export interface CardStyle {
   showBorder: boolean;
   borderWidth: number;
   radius: number;
+  // Dark mode: colours shown when the viewer's theme is dark.
+  darkMode: boolean;
+  darkBackground: string;
+  darkText: string;
+  darkAccent: string;
+  darkBorder: string;
   // Typography
   displayFont: FontId;
   bodyFont: FontId;
@@ -83,6 +89,8 @@ export interface RenderedCard {
   defs: SafeSvg;
   body: SafeSvg;
   faces: FontFaceUse[];
+  /** Light-to-dark colour pairs for dark mode; empty when it is off. */
+  darkColors: [string, string][];
   /** True when a fixed height is too small and content is clipped. */
   overflow: boolean;
 }

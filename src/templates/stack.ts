@@ -114,7 +114,8 @@ export const stackTemplate: CardTemplate<StackContent> = {
           const rect = solid
             ? svg`<rect x="${ix}" y="${y}" width="${w}" height="${tagHeight}" rx="${tagRadius}" fill="${s.accent}"/>`
             : svg`<rect x="${ix + 0.5}" y="${y + 0.5}" width="${w - 1}" height="${tagHeight - 1}" rx="${tagRadius}" fill="${s.accent}" fill-opacity="0.07" stroke="${s.accent}" stroke-opacity="0.45"/>`;
-          const fill = solid ? (s.transparent ? "#ffffff" : s.background) : s.text;
+          // "#fff", not "#ffffff": never one of the card colours that dark mode remaps.
+          const fill = solid ? (s.transparent ? "#fff" : s.background) : s.text;
           return svg`${rect}<text x="${ix + padX}" y="${base}"${fontAttrs(resolved)} fill="${fill}">${label}</text>`;
         },
       };

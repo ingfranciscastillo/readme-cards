@@ -1,11 +1,51 @@
 import { STYLE_LIMITS } from "../../state/limits";
 import type { CardStyle } from "../../types/card";
 import { ColorField, Group, SliderField, Toggle } from "../ui/fields";
-import { COLOR_PRESETS } from "./presets";
+import { COLOR_PRESETS, DARK_PRESETS } from "./presets";
 
 export interface StylePanelProps {
   style: CardStyle;
   update: (patch: Partial<CardStyle>) => void;
+}
+
+function PresetButton({
+  label,
+  selected,
+  onClick,
+  background,
+  text,
+  accent,
+  border,
+  transparent,
+}: {
+  label: string;
+  selected: boolean;
+  onClick: () => void;
+  background: string;
+  text: string;
+  accent: string;
+  border: string;
+  transparent: boolean;
+}) {
+  return (
+    <button
+      type="button"
+      aria-pressed={selected}
+      onClick={onClick}
+      className={`group flex flex-col gap-1.5 rounded-[var(--radius-control)] border p-1.5 text-left transition-colors ${
+        selected ? "border-ink" : "border-line hover:border-line-strong"
+      }`}
+    >
+      <span
+        className={`flex h-8 items-end gap-1 rounded-[3px] border p-1.5 ${transparent ? "checkerboard" : ""}`}
+        style={{ background: transparent ? undefined : background, borderColor: border }}
+      >
+        <span className="h-1.5 w-5 rounded-full" style={{ background: text }} />
+        <span className="size-1.5 rounded-full" style={{ background: accent }} />
+      </span>
+      <span className="px-0.5 text-[11.5px] text-ink-2">{label}</span>
+    </button>
+  );
 }
 
 export function AppearancePanel({ style, update }: StylePanelProps) {
@@ -16,43 +56,27 @@ export function AppearancePanel({ style, update }: StylePanelProps) {
       p.colors.accent === style.accent &&
       p.colors.transparent === style.transparent,
   );
+  const activeDark = DARK_PRESETS.find(
+    (p) =>
+      p.colors.darkBackground === style.darkBackground &&
+      p.colors.darkText === style.darkText &&
+      p.colors.darkAccent === style.darkAccent &&
+      p.colors.darkBorder === style.darkBorder,
+  );
   return (
     <>
       <Group title="Palette">
         <fieldset className="m-0 grid grid-cols-3 gap-2 border-0 p-0">
           <legend className="sr-only">Colour presets</legend>
-          {COLOR_PRESETS.map((preset) => {
-            const selected = active?.id === preset.id;
-            return (
-              <button
-                key={preset.id}
-                type="button"
-                aria-pressed={selected}
-                onClick={() => update(preset.colors)}
-                className={`group flex flex-col gap-1.5 rounded-[var(--radius-control)] border p-1.5 text-left transition-colors ${
-                  selected ? "border-ink" : "border-line hover:border-line-strong"
-                }`}
-              >
-                <span
-                  className={`flex h-8 items-end gap-1 rounded-[3px] border p-1.5 ${preset.colors.transparent ? "checkerboard" : ""}`}
-                  style={{
-                    background: preset.colors.transparent ? undefined : preset.colors.background,
-                    borderColor: preset.colors.border,
-                  }}
-                >
-                  <span
-                    className="h-1.5 w-5 rounded-full"
-                    style={{ background: preset.colors.text }}
-                  />
-                  <span
-                    className="size-1.5 rounded-full"
-                    style={{ background: preset.colors.accent }}
-                  />
-                </span>
-                <span className="px-0.5 text-[11.5px] text-ink-2">{preset.label}</span>
-              </button>
-            );
-          })}
+          {COLOR_PRESETS.map((preset) => (
+            <PresetButton
+              key={preset.id}
+              label={preset.label}
+              selected={active?.id === preset.id}
+              onClick={() => update(preset.colors)}
+              {...preset.colors}
+            />
+          ))}
         </fieldset>
       </Group>
       <Group title="Colours">
@@ -77,10 +101,61 @@ export function AppearancePanel({ style, update }: StylePanelProps) {
         </div>
         <Toggle
           label="Transparent background"
-          description="Lets the card sit on GitHub's light or dark page colour. Pick a text colour that reads on both."
+          description="Lets the card sit on GitHub's page colour. Pick a text colour that reads on both themes, or turn on dark mode below."
           checked={style.transparent}
           onChange={(transparent) => update({ transparent })}
         />
+      </Group>
+      <Group title="Dark mode">
+        <Toggle
+          label="Adapt to dark mode"
+          description="Adds dark colours to the same SVG. GitHub shows them when the viewer uses a dark theme. Use the Dark preview background to check them."
+          checked={style.darkMode}
+          onChange={(darkMode) => update({ darkMode })}
+        />
+        {style.darkMode ? (
+          <>
+            <fieldset className="m-0 grid grid-cols-3 gap-2 border-0 p-0">
+              <legend className="sr-only">Dark colour presets</legend>
+              {DARK_PRESETS.map((preset) => (
+                <PresetButton
+                  key={preset.id}
+                  label={preset.label}
+                  selected={activeDark?.id === preset.id}
+                  onClick={() => update(preset.colors)}
+                  background={preset.colors.darkBackground}
+                  text={preset.colors.darkText}
+                  accent={preset.colors.darkAccent}
+                  border={preset.colors.darkBorder}
+                  transparent={false}
+                />
+              ))}
+            </fieldset>
+            <div className="grid grid-cols-2 gap-x-3 gap-y-3.5">
+              <ColorField
+                label="Background"
+                value={style.darkBackground}
+                disabled={style.transparent}
+                onChange={(darkBackground) => update({ darkBackground })}
+              />
+              <ColorField
+                label="Text"
+                value={style.darkText}
+                onChange={(darkText) => update({ darkText })}
+              />
+              <ColorField
+                label="Accent"
+                value={style.darkAccent}
+                onChange={(darkAccent) => update({ darkAccent })}
+              />
+              <ColorField
+                label="Border"
+                value={style.darkBorder}
+                onChange={(darkBorder) => update({ darkBorder })}
+              />
+            </div>
+          </>
+        ) : null}
       </Group>
       <Group title="Shape">
         <Toggle

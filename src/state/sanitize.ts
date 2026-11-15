@@ -38,7 +38,16 @@ export function sanitizeStyle(defaults: CardStyle, saved: unknown): CardStyle {
     const k = key as keyof typeof STYLE_LIMITS;
     style[k] = clamp(style[k], limit.min, limit.max);
   }
-  for (const key of ["background", "text", "accent", "border"] as const) {
+  for (const key of [
+    "background",
+    "text",
+    "accent",
+    "border",
+    "darkBackground",
+    "darkText",
+    "darkAccent",
+    "darkBorder",
+  ] as const) {
     if (!HEX.test(style[key])) style[key] = defaults[key];
   }
   if (!isFontId(style.displayFont)) style.displayFont = defaults.displayFont;

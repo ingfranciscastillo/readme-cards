@@ -38,7 +38,8 @@ function avatarBlock(ctx: RenderContext, c: ProfileContent, x: number, size: num
           lines: [label],
           style: { font: s.displayFont, size: font.size, weight: s.titleWeight },
           lineHeight: font.size * 1.2,
-          fill: s.transparent ? "#ffffff" : s.background,
+          // "#fff", not "#ffffff": never one of the card colours that dark mode remaps.
+          fill: s.transparent ? "#fff" : s.background,
           anchor: "middle",
         },
       )}`;

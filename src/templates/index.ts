@@ -1,4 +1,11 @@
-import type { CardTemplate, TemplateId } from "../types/card";
+import { withDistinctColors } from "../lib/svg/theme";
+import type {
+  CardConfig,
+  CardTemplate,
+  RenderedCard,
+  RenderOptions,
+  TemplateId,
+} from "../types/card";
 import { bannerTemplate } from "./banner";
 import { contactTemplate } from "./contact";
 import { languagesTemplate } from "./languages";
@@ -25,6 +32,19 @@ export function getTemplate(id: TemplateId): CardTemplate<unknown> {
   const template = TEMPLATES.find((t) => t.id === id);
   if (!template) throw new Error(`Unknown template: ${id}`);
   return template;
+}
+
+/**
+ * Render a card. Always go through here rather than `template.render`, so dark
+ * mode gets light colours it can tell apart.
+ */
+export function renderCard(
+  template: CardTemplate<unknown>,
+  config: CardConfig<unknown>,
+  options: RenderOptions,
+): RenderedCard {
+  const style = withDistinctColors(config.style);
+  return template.render(style === config.style ? config : { ...config, style }, options);
 }
 
 export function isTemplateId(value: unknown): value is TemplateId {
