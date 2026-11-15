@@ -420,7 +420,7 @@ export function Group({
   return (
     <section className="flex flex-col gap-3.5 border-b border-line px-5 py-5 last:border-b-0">
       <div className="flex items-center justify-between gap-2">
-        <h3 className="eyebrow">{title}</h3>
+        <h2 className="eyebrow">{title}</h2>
         {aside}
       </div>
       {children}

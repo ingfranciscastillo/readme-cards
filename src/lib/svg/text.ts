@@ -29,6 +29,7 @@ export function resolveStyle(style: TextStyle): ResolvedTextStyle {
 }
 
 let context: CanvasRenderingContext2D | null | undefined;
+let contextFont = "";
 const cache = new Map<string, number>();
 
 function getContext(): CanvasRenderingContext2D | null {
@@ -53,7 +54,13 @@ export function measureText(text: string, style: TextStyle): number {
   const ctx = getContext();
   let width: number;
   if (ctx) {
-    ctx.font = `${s.italic ? "italic " : ""}${s.weight} ${s.size}px ${FONTS[s.font].stack}`;
+    // Assigning ctx.font re-parses the CSS font string, which dominates the
+    // cost of measuring; consecutive calls usually share a style.
+    const font = `${s.italic ? "italic " : ""}${s.weight} ${s.size}px ${FONTS[s.font].stack}`;
+    if (font !== contextFont) {
+      ctx.font = font;
+      contextFont = font;
+    }
     width = ctx.measureText(text).width;
   } else {
     // Deterministic fallback for non-browser environments.

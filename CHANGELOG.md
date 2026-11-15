@@ -13,6 +13,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   transparent setups, plus dark-mode colour mapping, validation, saved-data sanitising and
   GitHub input parsing. They run in CI before every build.
 
+### Changed
+
+- Faster first load: gallery cards render as they scroll into view, the editor loads as a
+  separate chunk (fetched when the browser is idle), and cards re-measure once when fonts
+  arrive instead of once per font.
+
+### Fixed
+
+- Accessibility: gallery cards are named by their title instead of a label that did not match
+  the visible text, the editor's back button has a name on phones, panel headings follow the
+  page heading, and the profile counts are disabled (not just dimmed) while hidden.
+
 ## [0.3.0] - 2026-11-15
 
 ### Added

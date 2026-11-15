@@ -185,7 +185,11 @@ export function ProfileEditor({ content, update }: ContentEditorProps<ProfileCon
           onChange={(showStats) => update({ showStats })}
           description="Imported values are a snapshot; the exported SVG does not update itself."
         />
-        <div className={`grid grid-cols-3 gap-2 ${content.showStats ? "" : "opacity-55"}`}>
+        <fieldset
+          disabled={!content.showStats}
+          className="m-0 grid grid-cols-3 gap-2 border-0 p-0 disabled:opacity-55"
+        >
+          <legend className="sr-only">Counts</legend>
           {(
             [
               ["followers", "Followers"],
@@ -202,7 +206,7 @@ export function ProfileEditor({ content, update }: ContentEditorProps<ProfileCon
               />
             </div>
           ))}
-        </div>
+        </fieldset>
       </Group>
     </>
   );

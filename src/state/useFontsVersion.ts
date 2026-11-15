@@ -7,6 +7,21 @@ import { clearMeasureCache } from "../lib/svg/text";
 let version = 0;
 const listeners = new Set<() => void>();
 const requested = new Set<string>();
+let pending: ReturnType<typeof setTimeout> | undefined;
+
+/**
+ * Cards ask for their faces separately and the files arrive one by one;
+ * coalesce the arrivals so every card re-measures once, not once per batch.
+ */
+function scheduleBump() {
+  if (pending !== undefined) return;
+  pending = setTimeout(() => {
+    pending = undefined;
+    clearMeasureCache();
+    version += 1;
+    for (const listener of listeners) listener();
+  }, 50);
+}
 
 function subscribe(listener: () => void) {
   listeners.add(listener);
@@ -23,10 +38,7 @@ export function requestFaces(faces: FontFaceUse[]): void {
   // Each face is asked for once per session; a failed download falls back to
   // the stack's next font instead of retrying on every render.
   Promise.all(fresh.map(loadFace)).then((results) => {
-    if (!results.some(Boolean)) return;
-    clearMeasureCache();
-    version += 1;
-    for (const listener of listeners) listener();
+    if (results.some(Boolean)) scheduleBump();
   });
 }
 

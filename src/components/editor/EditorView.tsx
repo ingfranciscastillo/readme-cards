@@ -112,7 +112,7 @@ export function EditorView({
           icon={<NavArrowLeft width={15} height={15} aria-hidden />}
           onClick={onBack}
         >
-          <span className="hidden sm:inline">Templates</span>
+          <span className="sr-only sm:not-sr-only">Templates</span>
         </Button>
         <span className="h-5 w-px bg-line" />
         <div className="hidden md:block">

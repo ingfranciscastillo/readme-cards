@@ -1,5 +1,5 @@
 import { ArrowRight } from "iconoir-react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { toSvgDocument } from "../../lib/svg/document";
 import type { AppState } from "../../state/store";
 import { requestFaces } from "../../state/useFontsVersion";
@@ -12,7 +12,42 @@ import { Wordmark } from "../Wordmark";
 const THUMB_MAX_WIDTH = 440;
 const THUMB_MAX_HEIGHT = 230;
 
-function Thumbnail({
+/**
+ * True once the element comes near the viewport. Rendering a card measures
+ * its text, which is the costliest work on load, so off-screen cards wait.
+ */
+function useNearViewport<T extends Element>() {
+  const ref = useRef<T>(null);
+  const [near, setNear] = useState(() => typeof IntersectionObserver === "undefined");
+  useEffect(() => {
+    const el = ref.current;
+    if (near || !el) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) setNear(true);
+      },
+      { rootMargin: "200px" },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [near]);
+  return [ref, near] as const;
+}
+
+function Thumbnail(props: {
+  templateId: TemplateId;
+  config: CardConfig<unknown>;
+  fontsVersion: number;
+}) {
+  const [ref, near] = useNearViewport<HTMLDivElement>();
+  return (
+    <div ref={ref} className="flex size-full items-center justify-center">
+      {near ? <ThumbnailCard {...props} /> : null}
+    </div>
+  );
+}
+
+function ThumbnailCard({
   templateId,
   config,
   fontsVersion,
@@ -122,44 +157,59 @@ export function Gallery({
               const config = saved ?? template.defaultConfig;
               const category = CATEGORIES.find((c) => c.id === template.category)?.label;
               return (
-                <li key={template.id}>
-                  <button
-                    type="button"
-                    onClick={() => onOpen(template.id)}
-                    className="group flex w-full flex-col overflow-hidden rounded-[6px] border border-line bg-white/40 text-left transition-colors hover:border-ink-3"
-                    aria-label={`${saved ? "Continue editing" : "Open"} the ${template.name} template`}
+                // The title's button stretches over the whole card (::after), so
+                // the card is one click target while its name stays short and
+                // the heading is not nested inside a button.
+                <li
+                  key={template.id}
+                  className="group relative flex flex-col overflow-hidden rounded-[6px] border border-line bg-white/40 transition-colors hover:border-ink-3 has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-accent"
+                >
+                  <div
+                    aria-hidden="true"
+                    className="dot-grid flex h-[290px] items-center justify-center border-b border-line bg-paper-2 p-6"
                   >
-                    <div className="dot-grid flex h-[290px] items-center justify-center border-b border-line bg-paper-2 p-6">
-                      <Thumbnail
-                        templateId={template.id}
-                        config={config}
-                        fontsVersion={fontsVersion}
-                      />
-                    </div>
-                    <div className="flex items-end justify-between gap-4 px-5 py-4">
-                      <div className="flex min-w-0 flex-col gap-1">
-                        <div className="flex items-baseline gap-2.5">
-                          <h2 className="font-serif text-[24px] leading-none">{template.name}</h2>
-                          <span className="eyebrow">{category}</span>
-                          {saved ? (
-                            <span className="rounded-[3px] bg-accent-soft px-1.5 py-px font-mono text-[10px] text-accent">
-                              Edited
-                            </span>
-                          ) : null}
-                        </div>
-                        <p className="text-[12.5px] text-ink-2">{template.description}</p>
+                    <Thumbnail
+                      templateId={template.id}
+                      config={config}
+                      fontsVersion={fontsVersion}
+                    />
+                  </div>
+                  <div className="flex items-end justify-between gap-4 px-5 py-4">
+                    <div className="flex min-w-0 flex-col gap-1">
+                      <div className="flex items-baseline gap-2.5">
+                        <h2 className="font-serif text-[24px] leading-none">
+                          <button
+                            type="button"
+                            onClick={() => onOpen(template.id)}
+                            aria-describedby={`card-${template.id}-desc`}
+                            className="cursor-pointer text-left after:absolute after:inset-0 focus-visible:outline-none"
+                          >
+                            {template.name}
+                          </button>
+                        </h2>
+                        <span className="eyebrow">{category}</span>
+                        {saved ? (
+                          <span className="rounded-[3px] bg-accent-soft px-1.5 py-px font-mono text-[10px] text-accent">
+                            Edited
+                          </span>
+                        ) : null}
                       </div>
-                      <span className="flex shrink-0 items-center gap-1 text-[12px] font-medium text-ink-2 transition-colors group-hover:text-ink">
-                        {saved ? "Continue" : "Customize"}
-                        <ArrowRight
-                          width={14}
-                          height={14}
-                          aria-hidden
-                          className="transition-transform group-hover:translate-x-0.5"
-                        />
-                      </span>
+                      <p id={`card-${template.id}-desc`} className="text-[12.5px] text-ink-2">
+                        {template.description}
+                      </p>
                     </div>
-                  </button>
+                    <span
+                      aria-hidden="true"
+                      className="flex shrink-0 items-center gap-1 text-[12px] font-medium text-ink-2 transition-colors group-hover:text-ink"
+                    >
+                      {saved ? "Continue" : "Customize"}
+                      <ArrowRight
+                        width={14}
+                        height={14}
+                        className="transition-transform group-hover:translate-x-0.5"
+                      />
+                    </span>
+                  </div>
                 </li>
               );
             })}
