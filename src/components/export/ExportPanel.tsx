@@ -1,10 +1,11 @@
-import { Check, Code, Copy, Download, WarningTriangle } from "iconoir-react";
+import { Check, Code, Copy, Download, Link, WarningTriangle } from "iconoir-react";
 import { useEffect, useId, useRef, useState } from "react";
 import { copyText } from "../../lib/export/clipboard";
 import { downloadSvg, formatBytes, sanitizeFilename } from "../../lib/export/download";
 import { htmlSnippet, markdownSnippet } from "../../lib/export/snippets";
 import { FONTS } from "../../lib/fonts";
 import type { ExportState } from "../../state/useCardRender";
+import type { ShareLink } from "../../state/useShareLink";
 import { Button } from "../ui/Button";
 import { Segmented, Toggle } from "../ui/fields";
 
@@ -21,6 +22,7 @@ export function ExportPanel({
   embedFonts,
   onEmbedFonts,
   adaptive,
+  shareLink,
 }: {
   exported: ExportState;
   width: number;
@@ -33,11 +35,15 @@ export function ExportPanel({
   onEmbedFonts: (embed: boolean) => void;
   /** The card carries dark-mode colours. */
   adaptive: boolean;
+  /** Link that reopens this card in the editor; null while it is being built. */
+  shareLink: ShareLink | null;
 }) {
   const id = useId();
   const [snippetKind, setSnippetKind] = useState<"markdown" | "html">("markdown");
   const [showSource, setShowSource] = useState(false);
   const [feedback, setFeedback] = useState<Feedback>(null);
+  // Once copying the share link fails, keep the link on screen to copy by hand.
+  const [manualShare, setManualShare] = useState(false);
   const timer = useRef<number | undefined>(undefined);
   useEffect(() => () => window.clearTimeout(timer.current), []);
 
@@ -53,14 +59,20 @@ export function ExportPanel({
     timer.current = window.setTimeout(() => setFeedback(null), 2200);
   };
 
-  const copy = async (key: string, text: string, what: string) => {
+  const copy = async (key: string, text: string, what: string): Promise<boolean> => {
     try {
       await copyText(text);
       flash(key, true, `${what} copied to the clipboard.`);
+      return true;
     } catch (error) {
       flash(key, false, (error as Error).message || "Copy failed.");
+      return false;
     }
   };
+
+  // Share feedback shows next to its button, not with the file actions.
+  const fileFeedback = feedback?.key === "share" ? null : feedback;
+  const shareCopied = feedback?.key === "share" && feedback.ok;
 
   const systemFonts = [...new Set(exported.systemFaces.map((f) => FONTS[f.font].label))];
 
@@ -155,8 +167,10 @@ export function ExportPanel({
         </div>
 
         <p aria-live="polite" className="min-h-[1.25em] text-[11.5px]">
-          {feedback ? (
-            <span className={feedback.ok ? "text-accent" : "text-danger"}>{feedback.message}</span>
+          {fileFeedback ? (
+            <span className={fileFeedback.ok ? "text-accent" : "text-danger"}>
+              {fileFeedback.message}
+            </span>
           ) : exported.error ? (
             <span className="text-danger">{exported.error}</span>
           ) : blocked ? (
@@ -231,6 +245,51 @@ export function ExportPanel({
         <p className="text-[11.5px] leading-snug text-ink-3">
           The path is relative. Commit <span className="font-mono text-ink-2">{file}</span> next to
           your README.md (or adjust the path) — nothing is hosted for you.
+        </p>
+      </div>
+
+      <div className="flex flex-col gap-3 border-t border-line px-5 py-4">
+        <span className="eyebrow">Share the design</span>
+        <p className="text-[11.5px] leading-snug text-ink-3">
+          A link that opens this card in the editor with your settings. Nothing is uploaded: the
+          settings travel in the link itself.
+        </p>
+        <Button
+          icon={
+            shareCopied ? (
+              <Check width={14} height={14} aria-hidden />
+            ) : (
+              <Link width={14} height={14} aria-hidden />
+            )
+          }
+          disabled={!shareLink}
+          onClick={() => {
+            if (!shareLink) return;
+            void copy("share", shareLink.url, "Share link").then((ok) => {
+              if (!ok) setManualShare(true);
+            });
+          }}
+        >
+          {shareCopied ? "Copied" : "Copy share link"}
+        </Button>
+        {manualShare && shareLink ? (
+          <input
+            readOnly
+            aria-label="Share link"
+            value={shareLink.url}
+            onFocus={(e) => e.currentTarget.select()}
+            className="control font-mono text-[11px]"
+          />
+        ) : null}
+        <p aria-live="polite" className="min-h-[1.25em] text-[11.5px] leading-snug">
+          {feedback?.key === "share" ? (
+            <span className={feedback.ok ? "text-accent" : "text-danger"}>
+              {feedback.message}
+              {feedback.ok && shareLink?.droppedImages ? " It doesn't include the avatar." : ""}
+            </span>
+          ) : shareLink?.droppedImages ? (
+            <span className="text-ink-3">The uploaded avatar isn't included in the link.</span>
+          ) : null}
         </p>
       </div>
     </section>

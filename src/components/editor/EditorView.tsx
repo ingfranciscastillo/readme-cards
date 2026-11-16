@@ -3,6 +3,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import type { AppState, PreviewBackground } from "../../state/store";
 import { useExportedSvg, useRenderedCard } from "../../state/useCardRender";
 import { useMediaQuery } from "../../state/useMediaQuery";
+import { type ShareNotice, useOutgoingShare } from "../../state/useShareLink";
 import { getTemplate } from "../../templates";
 import type { CardConfig, CardStyle, TemplateId } from "../../types/card";
 import { CATEGORIES } from "../../types/card";
@@ -15,6 +16,7 @@ import { AppearancePanel } from "./AppearancePanel";
 import { ContentEditor } from "./content/ContentEditor";
 import { type EditorTab, EditorTabs } from "./EditorTabs";
 import { LayoutPanel } from "./LayoutPanel";
+import { ShareBanner } from "./ShareBanner";
 import { TypographyPanel } from "./TypographyPanel";
 
 export function EditorView({
@@ -29,6 +31,9 @@ export function EditorView({
   setFilename,
   setEmbedFonts,
   setPreviewBackground,
+  shareNotice,
+  onShareAccept,
+  onShareDismiss,
 }: {
   templateId: TemplateId;
   config: CardConfig<unknown>;
@@ -41,6 +46,9 @@ export function EditorView({
   setFilename: (id: TemplateId, name: string) => void;
   setEmbedFonts: (embed: boolean) => void;
   setPreviewBackground: (bg: PreviewBackground) => void;
+  shareNotice: ShareNotice | null;
+  onShareAccept: () => void;
+  onShareDismiss: () => void;
 }) {
   const template = getTemplate(templateId);
   const [tab, setTab] = useState<EditorTab>("content");
@@ -53,6 +61,7 @@ export function EditorView({
   const { card, markup } = useRenderedCard(template, config, fontsVersion, previewScheme);
   const exported = useExportedSvg(card, state.embedFonts);
   const edited = state.configs[templateId] !== undefined;
+  const shareLink = useOutgoingShare(templateId, config);
 
   const updateStyle = useCallback(
     (patch: Partial<CardStyle>) => {
@@ -98,6 +107,7 @@ export function EditorView({
       embedFonts={state.embedFonts}
       onEmbedFonts={setEmbedFonts}
       adaptive={card.darkColors.length > 0}
+      shareLink={shareLink}
     />
   );
 
@@ -161,6 +171,14 @@ export function EditorView({
           <GithubLink />
         </div>
       </header>
+      {shareNotice ? (
+        <ShareBanner
+          notice={shareNotice}
+          templateName={template.name}
+          onAccept={onShareAccept}
+          onDismiss={onShareDismiss}
+        />
+      ) : null}
 
       <div className="grid min-h-0 flex-1 grid-cols-1 lg:grid-cols-[minmax(320px,360px)_1fr] xl:grid-cols-[360px_1fr_320px]">
         <aside

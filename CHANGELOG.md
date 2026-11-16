@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Share links: **Copy share link** in the export panel gives a URL that opens the card in the
+  editor with the same settings. The settings are compressed into the link, so nothing is
+  uploaded; uploaded avatars are left out. Opening a link asks before it replaces your edits,
+  and a broken link leaves the card unchanged.
 - Unit tests with Vitest: every template and variant exports a valid SVG in light, dark and
   transparent setups, plus dark-mode colour mapping, validation, saved-data sanitising and
   GitHub input parsing. They run in CI before every build.
@@ -21,6 +25,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Copying falls back to the older clipboard method when the browser denies the Clipboard API,
+  and the share link appears in a field to copy by hand if both fail.
 - Accessibility: gallery cards are named by their title instead of a label that did not match
   the visible text, the editor's back button has a name on phones, panel headings follow the
   page heading, and the profile counts are disabled (not just dimmed) while hidden.

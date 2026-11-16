@@ -2,6 +2,7 @@ import { lazy, Suspense, useEffect } from "react";
 import { Gallery } from "./components/gallery/Gallery";
 import { useAppState, useRoute } from "./state/store";
 import { useFontsVersion } from "./state/useFontsVersion";
+import { useIncomingShare } from "./state/useShareLink";
 
 // The editor is most of the code and the gallery is the landing page: load
 // the editor separately, and fetch it once the browser is idle so opening a
@@ -22,6 +23,7 @@ export function App() {
   const store = useAppState();
   const fontsVersion = useFontsVersion();
   const [route, navigate] = useRoute();
+  const share = useIncomingShare(route, store.state.configs, store.setConfig);
 
   useEffect(() => {
     document.title =
@@ -47,6 +49,9 @@ export function App() {
           setFilename={store.setFilename}
           setEmbedFonts={store.setEmbedFonts}
           setPreviewBackground={store.setPreviewBackground}
+          shareNotice={share.notice?.templateId === route.templateId ? share.notice : null}
+          onShareAccept={share.accept}
+          onShareDismiss={share.dismiss}
         />
       </Suspense>
     );

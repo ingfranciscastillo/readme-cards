@@ -38,6 +38,7 @@ There's no backend and no account. Everything runs in your browser. The only net
 - **Self-contained export**: fonts and avatar are embedded, so the card looks the same through GitHub's image proxy. No remote URLs, no `<foreignObject>`.
 - **Ready-to-paste snippets** in Markdown or HTML. Choose the filename and see the dimensions and file size before you download.
 - **Your work is kept** in `localStorage` between visits, and any template can be reset to its defaults.
+- **Share links**: copy a link that opens your card in the editor with the same settings. Nothing is uploaded; the settings travel in the link itself, without uploaded avatars.
 
 ## Usage
 
@@ -70,6 +71,7 @@ The SVG string is the source of truth. React only renders the editor around it.
 - **Embedded fonts**: fonts download on demand, only the faces the card uses, and on export those same faces are embedded as base64 woff2 (Latin subset). System fonts are never embedded, and embedding can be turned off for a smaller file.
 - **Embedded images**: avatars are cropped to 160 px and stored as `data:` URIs, JPEG when opaque and PNG when transparent. Without an image, initials are drawn instead.
 - **Dark mode by recolouring**: templates draw with the light colours, and a `prefers-color-scheme: dark` stylesheet maps each one to its dark counterpart by attribute value (`src/lib/svg/theme.ts`). The same markup serves both themes.
+- **Share links**: the card's config is JSON, compressed with the browser's `CompressionStream` and base64url-encoded into the URL hash (`src/lib/share.ts`). An incoming link passes through the same sanitiser as saved work, and the app asks before it replaces your edits.
 - **Validation**: every export is parsed as XML and checked for namespace, dimensions, external references and `foreignObject`.
 
 > [!IMPORTANT]
@@ -109,6 +111,7 @@ src/
 │   ├── svg/              markup builder, text measurement, layout, icons,
 │   │                     document wrapper, font embedding, validation
 │   ├── github/           input parsing, REST client with cache, data mapping
+│   ├── share.ts          share-link encoding and decoding
 │   └── export/           download, clipboard, snippets
 ├── components/
 │   ├── gallery/          template gallery
