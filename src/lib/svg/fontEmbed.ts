@@ -1,4 +1,4 @@
-import { FONTS, type FontFaceUse, faceFile } from "../fonts";
+import { FONTS, type FontFaceUse, faceFile, fontBytes } from "../fonts";
 
 const cache = new Map<string, Promise<string>>();
 
@@ -17,12 +17,7 @@ function toBase64(blob: Blob): Promise<string> {
 function loadFont(url: string): Promise<string> {
   let pending = cache.get(url);
   if (!pending) {
-    pending = fetch(url)
-      .then((res) => {
-        if (!res.ok) throw new Error(`Font request failed (${res.status})`);
-        return res.blob();
-      })
-      .then(toBase64);
+    pending = fontBytes(url).then((bytes) => toBase64(new Blob([bytes])));
     // Do not cache failures, so a later export can retry.
     pending.catch(() => cache.delete(url));
     cache.set(url, pending);

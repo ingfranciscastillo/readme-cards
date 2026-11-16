@@ -7,6 +7,7 @@ import { clearMeasureCache } from "../lib/svg/text";
 let version = 0;
 const listeners = new Set<() => void>();
 const requested = new Set<string>();
+const failed = new Set<string>();
 let pending: ReturnType<typeof setTimeout> | undefined;
 
 /**
@@ -38,8 +39,20 @@ export function requestFaces(faces: FontFaceUse[]): void {
   // Each face is asked for once per session; a failed download falls back to
   // the stack's next font instead of retrying on every render.
   Promise.all(fresh.map(loadFace)).then((results) => {
+    results.forEach((ok, i) => {
+      if (!ok) failed.add(faceKey(fresh[i]));
+    });
     if (results.some(Boolean)) scheduleBump();
   });
+}
+
+/** Ask again for faces whose download failed, e.g. once the network is back. */
+export function retryFaces(faces: FontFaceUse[]): void {
+  for (const face of faces) {
+    const key = faceKey(face);
+    if (failed.delete(key)) requested.delete(key);
+  }
+  requestFaces(faces);
 }
 
 /** Changes whenever newly loaded fonts make earlier text measurements stale. */

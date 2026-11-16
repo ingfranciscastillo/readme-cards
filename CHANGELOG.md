@@ -25,6 +25,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Exporting no longer fails with "Fonts could not be embedded (Failed to fetch)" when the
+  connection drops after the preview has loaded its fonts: the preview and the export share one
+  download of each font. If a font never arrived, the export panel explains it, offers
+  **Try again**, and retries on its own when the browser comes back online; retrying also
+  reloads the font in the preview.
 - Copying falls back to the older clipboard method when the browser denies the Clipboard API,
   and the share link appears in a field to copy by hand if both fail.
 - Accessibility: gallery cards are named by their title instead of a label that did not match

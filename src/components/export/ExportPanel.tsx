@@ -172,7 +172,12 @@ export function ExportPanel({
               {fileFeedback.message}
             </span>
           ) : exported.error ? (
-            <span className="text-danger">{exported.error}</span>
+            <span className="flex flex-col items-start gap-2">
+              <span className="text-danger">{exported.error}</span>
+              <Button size="sm" onClick={exported.retry}>
+                Try again
+              </Button>
+            </span>
           ) : blocked ? (
             <span className="flex gap-1.5 text-danger">
               <WarningTriangle width={13} height={13} className="mt-px shrink-0" aria-hidden />

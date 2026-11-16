@@ -469,35 +469,66 @@ export function faceFile(face: FontFaceUse): string | undefined {
   return FONTS[face.font].files[`${face.weight}${face.italic ? "italic" : ""}`];
 }
 
+const byteLoads = new Map<string, Promise<ArrayBuffer>>();
+
+/**
+ * Download a font file once per session. The preview and the export share
+ * these bytes, so a face the preview shows can always be embedded, even if
+ * the network has gone away since. Failures are not cached, so a later
+ * request retries.
+ */
+export function fontBytes(url: string): Promise<ArrayBuffer> {
+  let pending = byteLoads.get(url);
+  if (!pending) {
+    pending = fetch(url).then((res) => {
+      if (!res.ok) throw new Error(`Font request failed (${res.status})`);
+      return res.arrayBuffer();
+    });
+    pending.catch(() => byteLoads.delete(url));
+    byteLoads.set(url, pending);
+  }
+  return pending;
+}
+
 const faceLoads = new Map<string, Promise<boolean>>();
 
 /**
  * Register and download one face on demand, so only the fonts a card uses are
  * fetched. Uses the same Latin woff2 file that export embeds, so the preview
  * measures and draws exactly what the SVG will contain. Resolves to whether a
- * font was loaded; never rejects.
+ * font was loaded; never rejects. A failed load is forgotten, so a later call
+ * tries again.
  */
 export function loadFace(face: FontFaceUse): Promise<boolean> {
   const key = faceKey(face);
   let pending = faceLoads.get(key);
   if (pending) return pending;
-  const def = FONTS[face.font];
+  const family = FONTS[face.font].family;
   const url = faceFile(face);
-  if (!def.family || !url || typeof document === "undefined" || !document.fonts) {
+  if (!family || !url || typeof document === "undefined" || !document.fonts) {
     pending = Promise.resolve(false);
   } else {
-    const font = new FontFace(def.family, `url(${url}) format("woff2")`, {
+    const descriptors = {
       weight: String(face.weight),
       style: face.italic ? "italic" : "normal",
+    };
+    pending = fontBytes(url)
+      .then((bytes) => {
+        // A copy, so the cached bytes stay usable for export.
+        const font = new FontFace(family, bytes.slice(0), descriptors);
+        document.fonts.add(font);
+        return font.load().then(
+          () => true,
+          () => {
+            document.fonts.delete(font);
+            return false;
+          },
+        );
+      })
+      .catch(() => false);
+    pending.then((ok) => {
+      if (!ok) faceLoads.delete(key);
     });
-    document.fonts.add(font);
-    pending = font.load().then(
-      () => true,
-      () => {
-        document.fonts.delete(font);
-        return false;
-      },
-    );
   }
   faceLoads.set(key, pending);
   return pending;
