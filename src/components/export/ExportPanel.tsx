@@ -79,7 +79,10 @@ export function ExportPanel({
   return (
     <section aria-labelledby={`${id}-title`} className="flex flex-col">
       <div className="flex items-baseline justify-between border-b border-line px-5 py-3">
-        <h2 id={`${id}-title`} className="font-serif text-[22px] leading-none">
+        <h2
+          id={`${id}-title`}
+          className="font-display text-[22px] leading-none font-bold font-stretch-[80%] tracking-[-0.015em]"
+        >
           Export
         </h2>
         <span className="font-mono text-[11px] text-ink-3 tabular-nums">

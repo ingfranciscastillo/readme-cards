@@ -17,9 +17,10 @@
   --color-danger: #9c3b2c;
   --color-danger-soft: #f5e6e2;
 
-  --font-sans: "Geist Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Instrument Sans Variable", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
-  --font-serif: "Instrument Serif", Georgia, serif;
+  /* Headings and the wordmark: Bricolage condensed, its optical size follows the font size. */
+  --font-display: "Bricolage Grotesque Variable", ui-sans-serif, system-ui, sans-serif;
 
   --radius-control: 4px;
 }

@@ -114,14 +114,18 @@ export function Gallery({
 
       <main className="mx-auto max-w-[1120px] px-5 pb-16">
         <section className="grid gap-6 border-b border-line py-10 md:grid-cols-[1.3fr_1fr] md:items-end md:py-14">
-          <h1 className="font-serif text-[42px] leading-[1.02] tracking-[-0.015em] text-balance md:text-[56px]">
+          <h1 className="font-display text-[46px] leading-[0.95] font-extrabold font-stretch-condensed tracking-[-0.005em] text-balance md:text-[66px]">
             Cards for the top of your README.
           </h1>
-          <p className="max-w-[44ch] text-[14px] leading-relaxed text-ink-2">
-            Pick a template, fill it in by hand or from GitHub, tune type and spacing, then download
-            an SVG you commit next to your README. What you see in the preview is the exact file you
-            get.
-          </p>
+          <div className="flex max-w-[46ch] flex-col items-start gap-3">
+            <p className="text-[14.5px] leading-relaxed text-pretty text-ink-2">
+              Pick a template, fill it in by hand or from GitHub, tune type and spacing, then
+              download an SVG you commit next to your README and add with one line:
+            </p>
+            <code className="rounded-[var(--radius-control)] border border-line bg-white px-2.5 py-1.5 font-mono text-[12px] text-ink-2">
+              ![Ada's profile](./<span className="text-accent">profile-card.svg</span>)
+            </code>
+          </div>
         </section>
 
         <nav aria-label="Template categories" className="flex flex-wrap gap-x-6 gap-y-2 py-5">
@@ -177,7 +181,7 @@ export function Gallery({
                   <div className="flex items-end justify-between gap-4 px-5 py-4">
                     <div className="flex min-w-0 flex-col gap-1">
                       <div className="flex items-baseline gap-2.5">
-                        <h2 className="font-serif text-[24px] leading-none">
+                        <h2 className="font-display text-[24px] leading-none font-bold font-stretch-[80%] tracking-[-0.02em]">
                           <button
                             type="button"
                             onClick={() => onOpen(template.id)}

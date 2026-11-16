@@ -19,6 +19,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- New interface type: Bricolage Grotesque (condensed) for headings and the wordmark, Instrument
+  Sans for the interface. The gallery intro shows the Markdown line you paste into a README.
 - Faster first load: gallery cards render as they scroll into view, the editor loads as a
   separate chunk (fetched when the browser is idle), and cards re-measure once when fonts
   arrive instead of once per font.
