@@ -103,7 +103,8 @@ The SVG string is the source of truth. React only renders the editor around it.
 
 <img src="docs/run-locally.svg" alt="Run Readme Cards locally: clone the repository, then run pnpm install and pnpm dev" width="640">
 
-You need [Node.js](https://nodejs.org/) 20.19+ (or 22.12+) and [pnpm](https://pnpm.io/). The card above was made with the Install template; copy the commands from here:
+<details>
+<summary>Copy the commands</summary>
 
 ```bash
 git clone https://github.com/ingfranciscastillo/readme-cards.git
@@ -111,6 +112,8 @@ cd readme-cards
 pnpm install
 pnpm dev
 ```
+
+</details>
 
 Then open http://localhost:5173.
 
