@@ -34,6 +34,9 @@ export type TemplateId =
   | "now"
   | "repository"
   | "install"
+  | "features"
+  | "projects"
+  | "section"
   | "stack"
   | "languages"
   | "quote";

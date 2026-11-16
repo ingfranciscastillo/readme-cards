@@ -1,6 +1,7 @@
 import type {
   LanguageEntry,
   ProfileContent,
+  ProjectEntry,
   RepositoryContent,
   SocialLink,
   SocialPlatform,
@@ -141,4 +142,20 @@ export function mapContactLinks(user: GithubUser, accounts: GithubSocialAccount[
   if (user.email) links.push({ id: "email", platform: "email", handle: user.email });
   if (user.blog?.trim()) links.push({ id: "blog", platform: "link", handle: stripUrl(user.blog) });
   return links;
+}
+
+/** The user's own, non-archived repositories with the most stars, as project entries. */
+export function mapProjects(repos: GithubRepoSummary[], limit: number): ProjectEntry[] {
+  return repos
+    .filter((repo) => !repo.fork && !repo.archived)
+    .sort((a, b) => (b.stargazers_count ?? 0) - (a.stargazers_count ?? 0))
+    .slice(0, limit)
+    .map((repo, i) => ({
+      id: `gh${i}-${repo.name}`,
+      name: repo.name,
+      description: repo.description?.trim() ?? "",
+      language: repo.language ?? "",
+      languageColor: languageColor(repo.language ?? ""),
+      stars: repo.stargazers_count ?? 0,
+    }));
 }

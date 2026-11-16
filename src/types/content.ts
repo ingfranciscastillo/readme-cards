@@ -156,3 +156,58 @@ export interface InstallContent {
   /** One command per line; lines starting with # are comments. */
   commands: string;
 }
+
+export type FeatureIcon =
+  | "fast"
+  | "secure"
+  | "plugins"
+  | "code"
+  | "design"
+  | "global"
+  | "data"
+  | "cloud"
+  | "mobile"
+  | "package"
+  | "accessible"
+  | "check";
+
+export interface FeatureItem {
+  id: string;
+  icon: FeatureIcon;
+  title: string;
+  text: string;
+}
+
+export interface FeaturesContent {
+  title: string;
+  subtitle: string;
+  showTitle: boolean;
+  showSubtitle: boolean;
+  items: FeatureItem[];
+}
+
+export interface ProjectEntry {
+  id: string;
+  name: string;
+  description: string;
+  language: string;
+  languageColor: string;
+  stars: number;
+}
+
+export interface ProjectsContent {
+  title: string;
+  subtitle: string;
+  showTitle: boolean;
+  showSubtitle: boolean;
+  showDescription: boolean;
+  showLanguage: boolean;
+  showStars: boolean;
+  projects: ProjectEntry[];
+}
+
+export interface SectionContent {
+  title: string;
+  subtitle: string;
+  showSubtitle: boolean;
+}

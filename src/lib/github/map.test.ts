@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import type { GithubUser } from "./api";
-import { mapContactLinks, mapLanguages, repoLanguageCounts } from "./map";
+import type { GithubRepoSummary, GithubUser } from "./api";
+import { mapContactLinks, mapLanguages, mapProjects, repoLanguageCounts } from "./map";
 
 describe("repoLanguageCounts", () => {
   it("counts own, active repositories by language", () => {
@@ -52,5 +52,38 @@ describe("mapContactLinks", () => {
       { provider: "twitter", url: "https://twitter.com/ada" },
     ]);
     expect(links.filter((l) => l.platform === "x")).toHaveLength(1);
+  });
+});
+
+describe("mapProjects", () => {
+  const repo = (name: string, stars: number, extra: Partial<GithubRepoSummary> = {}) => ({
+    name,
+    fork: false,
+    archived: false,
+    language: "TypeScript",
+    description: ` ${name} tool `,
+    stargazers_count: stars,
+    ...extra,
+  });
+
+  it("keeps the user's own, active repositories with the most stars", () => {
+    const projects = mapProjects(
+      [
+        repo("small", 3),
+        repo("forked", 900, { fork: true }),
+        repo("big", 120),
+        repo("old", 500, { archived: true }),
+        repo("mid", 40, { language: null, description: null }),
+      ],
+      2,
+    );
+    expect(projects.map((p) => p.name)).toEqual(["big", "mid"]);
+    expect(projects[0]).toMatchObject({
+      description: "big tool",
+      language: "TypeScript",
+      languageColor: "#3178c6",
+      stars: 120,
+    });
+    expect(projects[1]).toMatchObject({ description: "", language: "" });
   });
 });

@@ -166,6 +166,8 @@ export interface GithubRepoSummary {
   fork: boolean;
   archived: boolean;
   language: string | null;
+  description?: string | null;
+  stargazers_count?: number;
 }
 
 export interface GithubSocialAccount {

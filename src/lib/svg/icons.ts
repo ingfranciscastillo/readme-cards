@@ -1,8 +1,13 @@
+import accessibility from "iconoir/icons/regular/accessibility.svg?raw";
 import book from "iconoir/icons/regular/book.svg?raw";
+import checkCircle from "iconoir/icons/regular/check-circle.svg?raw";
+import cloud from "iconoir/icons/regular/cloud.svg?raw";
 import code from "iconoir/icons/regular/code.svg?raw";
 import codepen from "iconoir/icons/regular/codepen.svg?raw";
+import database from "iconoir/icons/regular/database.svg?raw";
 import discord from "iconoir/icons/regular/discord.svg?raw";
 import dribbble from "iconoir/icons/regular/dribbble.svg?raw";
+import flash from "iconoir/icons/regular/flash.svg?raw";
 import gamepad from "iconoir/icons/regular/gamepad.svg?raw";
 import gitFork from "iconoir/icons/regular/git-fork.svg?raw";
 import github from "iconoir/icons/regular/github.svg?raw";
@@ -19,7 +24,12 @@ import mapPin from "iconoir/icons/regular/map-pin.svg?raw";
 import mastodon from "iconoir/icons/regular/mastodon.svg?raw";
 import medium from "iconoir/icons/regular/medium.svg?raw";
 import openBook from "iconoir/icons/regular/open-book.svg?raw";
+import packageIcon from "iconoir/icons/regular/package.svg?raw";
 import page from "iconoir/icons/regular/page.svg?raw";
+import palette from "iconoir/icons/regular/palette.svg?raw";
+import phone from "iconoir/icons/regular/phone.svg?raw";
+import puzzle from "iconoir/icons/regular/puzzle.svg?raw";
+import shieldCheck from "iconoir/icons/regular/shield-check.svg?raw";
 import sparks from "iconoir/icons/regular/sparks.svg?raw";
 import star from "iconoir/icons/regular/star.svg?raw";
 import telegram from "iconoir/icons/regular/telegram.svg?raw";
@@ -68,6 +78,16 @@ const ICONS = {
   x: inner(x),
   youtube: inner(youtube),
   quote: inner(quote),
+  flash: inner(flash),
+  shieldCheck: inner(shieldCheck),
+  puzzle: inner(puzzle),
+  palette: inner(palette),
+  database: inner(database),
+  cloud: inner(cloud),
+  phone: inner(phone),
+  package: inner(packageIcon),
+  accessibility: inner(accessibility),
+  checkCircle: inner(checkCircle),
 } as const;
 
 export type IconName = keyof typeof ICONS;

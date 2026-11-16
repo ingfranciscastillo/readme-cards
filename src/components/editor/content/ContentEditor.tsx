@@ -2,22 +2,28 @@ import type { CardConfig, TemplateId } from "../../../types/card";
 import type {
   BannerContent,
   ContactContent,
+  FeaturesContent,
   InstallContent,
   LanguagesContent,
   NowContent,
   ProfileContent,
+  ProjectsContent,
   QuoteContent,
   RepositoryContent,
+  SectionContent,
   StackContent,
 } from "../../../types/content";
 import { BannerEditor } from "./BannerEditor";
 import { ContactEditor } from "./ContactEditor";
+import { FeaturesEditor } from "./FeaturesEditor";
 import { InstallEditor } from "./InstallEditor";
 import { LanguagesEditor } from "./LanguagesEditor";
 import { NowEditor } from "./NowEditor";
 import { ProfileEditor } from "./ProfileEditor";
+import { ProjectsEditor } from "./ProjectsEditor";
 import { QuoteEditor } from "./QuoteEditor";
 import { RepositoryEditor } from "./RepositoryEditor";
+import { SectionEditor } from "./SectionEditor";
 import { StackEditor } from "./StackEditor";
 
 /** Picks the content form for a template; the casts mirror the registry's type erasure. */
@@ -53,6 +59,12 @@ export function ContentEditor({
       return <NowEditor content={config.content as NowContent} update={update} />;
     case "install":
       return <InstallEditor content={config.content as InstallContent} update={update} />;
+    case "features":
+      return <FeaturesEditor content={config.content as FeaturesContent} update={update} />;
+    case "projects":
+      return <ProjectsEditor content={config.content as ProjectsContent} update={update} />;
+    case "section":
+      return <SectionEditor content={config.content as SectionContent} update={update} />;
     case "languages":
       return <LanguagesEditor content={config.content as LanguagesContent} update={update} />;
   }

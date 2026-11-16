@@ -8,12 +8,15 @@ import type {
 } from "../types/card";
 import { bannerTemplate } from "./banner";
 import { contactTemplate } from "./contact";
+import { featuresTemplate } from "./features";
 import { installTemplate } from "./install";
 import { languagesTemplate } from "./languages";
 import { nowTemplate } from "./now";
 import { profileTemplate } from "./profile";
+import { projectsTemplate } from "./projects";
 import { quoteTemplate } from "./quote";
 import { repositoryTemplate } from "./repository";
+import { sectionTemplate } from "./section";
 import { stackTemplate } from "./stack";
 
 /**
@@ -25,11 +28,14 @@ export const TEMPLATES = [
   bannerTemplate,
   contactTemplate,
   nowTemplate,
+  projectsTemplate,
   repositoryTemplate,
   installTemplate,
+  featuresTemplate,
   stackTemplate,
   languagesTemplate,
   quoteTemplate,
+  sectionTemplate,
 ] as unknown as CardTemplate<unknown>[];
 
 export function getTemplate(id: TemplateId): CardTemplate<unknown> {

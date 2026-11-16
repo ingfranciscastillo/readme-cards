@@ -22,21 +22,24 @@ There's no backend and no account. Everything runs in your browser. The only net
 
 ## Features
 
-- **9 templates, 25 layouts**:
+- **12 templates, 33 layouts**:
   - Profile (side by side, stacked)
   - Banner (classic, accent rule, split): a wide header for the top of your README
   - Contact (rows, grid, inline): social profiles, email and website with their icons
   - Now (rows, two columns, compact): what you're building, learning and reading at the moment
+  - Projects (grid, list): a few repositories side by side, imported from your GitHub profile
   - Repository (classic, spotlight)
   - Install (terminal, code block, steps): setup commands for a project README
+  - Features (grid, list, checklist): what a project does well, with icons
   - Tech Stack (outlined tags, solid tags, inline list)
   - Languages (stacked bar, bars, donut)
   - Quote (quotation mark, side rule, plain)
+  - Section title (rule below, side bar, centred lines): headings that match your cards
 - **Live editor** with Content, Appearance, Type and Layout tabs. Every change re-renders the card immediately.
 - **Light and dark mode in one file**: give a card dark colours and it follows the reader's GitHub theme. No `<picture>` tag or second file needed.
 - **17 open-source fonts** to embed, among them Inter, IBM Plex, Fraunces, Playfair Display, Lora, JetBrains Mono and Fira Code, plus system font stacks.
 - **Accurate preview** with zoom (fit, 1:1, steps) and transparent, light or dark backgrounds that approximate GitHub's themes.
-- **Import from GitHub**: paste `octocat`, `@octocat`, `owner/repo` or a full URL to fill in the name, bio, avatar, stars and more. The Contact card picks up the social accounts listed on your profile, and the Languages card reads a repository's language breakdown or counts your public repositories by main language.
+- **Import from GitHub**: paste `octocat`, `@octocat`, `owner/repo` or a full URL to fill in the name, bio, avatar, stars and more. The Contact card picks up the social accounts listed on your profile, the Projects card your most-starred repositories, and the Languages card reads a repository's language breakdown or counts your public repositories by main language.
 - **Self-contained export**: fonts and avatar are embedded, so the card looks the same through GitHub's image proxy. No remote URLs, no `<foreignObject>`.
 - **Ready-to-paste snippets** in Markdown or HTML. Choose the filename and see the dimensions and file size before you download.
 - **Your work is kept** in `localStorage` between visits, and any template can be reset to its defaults.

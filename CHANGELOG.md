@@ -13,6 +13,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   listening to, each with an icon.
 - Install template (terminal, code block, steps): setup commands for a project README, with
   `#` comments as captions and a choice of code font.
+- Projects template (grid, list): up to six repositories with description, language and stars;
+  import picks your most-starred public repositories.
+- Features template (grid, list, checklist): a project's strengths, each with an icon.
+- Section title template (rule below, side bar, centred lines): transparent headings that follow
+  GitHub's dark theme, to split a long README into parts.
 - Share links: **Copy share link** in the export panel gives a URL that opens the card in the
   editor with the same settings. The settings are compressed into the link, so nothing is
   uploaded; uploaded avatars are left out. Opening a link asks before it replaces your edits,
