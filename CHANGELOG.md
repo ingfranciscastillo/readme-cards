@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-11-16
+
 ### Added
 
 - An examples gallery in the README: six cards exported from the app that follow GitHub's light
@@ -117,7 +119,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   HTML snippets.
 - Work saved to `localStorage`, with a per-template reset.
 
-[Unreleased]: https://github.com/ingfranciscastillo/readme-cards/compare/v0.4.0...HEAD
+[Unreleased]: https://github.com/ingfranciscastillo/readme-cards/compare/v0.5.0...HEAD
+[0.5.0]: https://github.com/ingfranciscastillo/readme-cards/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/ingfranciscastillo/readme-cards/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/ingfranciscastillo/readme-cards/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/ingfranciscastillo/readme-cards/compare/v0.1.0...v0.2.0
