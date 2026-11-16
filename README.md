@@ -10,7 +10,7 @@
 ![Vite](https://img.shields.io/badge/Vite-8-646cff?logo=vite&logoColor=white)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-[**Open the app**](https://ingfranciscastillo.github.io/readme-cards/) · [Features](#features) · [How it works](#how-it-works) · [Run locally](#run-locally)
+[**Open the app**](https://ingfranciscastillo.github.io/readme-cards/) · [Features](#features) · [Examples](#examples) · [How it works](#how-it-works) · [Run locally](#run-locally)
 
 <img src="docs/demo.gif" alt="Demo: open the Profile template, import the octocat GitHub profile, switch to a dark palette, change the layout and copy the Markdown snippet" width="800" />
 
@@ -44,6 +44,23 @@ There's no backend and no account. Everything runs in your browser. The only net
 - **Ready-to-paste snippets** in Markdown or HTML. Choose the filename and see the dimensions and file size before you download.
 - **Your work is kept** in `localStorage` between visits, and any template can be reset to its defaults.
 - **Share links**: copy a link that opens your card in the editor with the same settings. Nothing is uploaded; the settings travel in the link itself, without uploaded avatars.
+
+## Examples
+
+Six of the twelve templates, exported from the app with their default content. Each is one SVG with light and dark colours: switch GitHub's theme and they follow it. Every template and layout is in the [test repository](https://github.com/ingfranciscastillo/readme-cards-test).
+
+<p align="center">
+  <img src="docs/examples/profile.svg" alt="Profile card: avatar initials, name, handle, bio, location and links" width="48%">
+  <img src="docs/examples/languages.svg" alt="Languages card: a donut chart of TypeScript, CSS, JavaScript, Rust and Shell" width="48%">
+</p>
+<p align="center">
+  <img src="docs/examples/projects.svg" alt="Projects card: three repositories with descriptions, languages and stars" width="48%">
+  <img src="docs/examples/features.svg" alt="Features card: four features, each with an icon, a title and a line" width="48%">
+</p>
+<p align="center">
+  <img src="docs/examples/now.svg" alt="Now card: building, learning and reading, each with an icon" width="48%">
+  <img src="docs/examples/install.svg" alt="Install card: npm install and init commands in a terminal window" width="48%">
+</p>
 
 ## Usage
 

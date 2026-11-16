@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- An examples gallery in the README: six cards exported from the app that follow GitHub's light
+  and dark themes.
+
 ### Changed
 
 - Features template: 46 icons to choose from instead of 12, grouped by theme in the picker.
