@@ -8,7 +8,9 @@ import type {
 } from "../types/card";
 import { bannerTemplate } from "./banner";
 import { contactTemplate } from "./contact";
+import { installTemplate } from "./install";
 import { languagesTemplate } from "./languages";
+import { nowTemplate } from "./now";
 import { profileTemplate } from "./profile";
 import { quoteTemplate } from "./quote";
 import { repositoryTemplate } from "./repository";
@@ -22,7 +24,9 @@ export const TEMPLATES = [
   profileTemplate,
   bannerTemplate,
   contactTemplate,
+  nowTemplate,
   repositoryTemplate,
+  installTemplate,
   stackTemplate,
   languagesTemplate,
   quoteTemplate,

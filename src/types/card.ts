@@ -31,7 +31,9 @@ export type TemplateId =
   | "profile"
   | "banner"
   | "contact"
+  | "now"
   | "repository"
+  | "install"
   | "stack"
   | "languages"
   | "quote";

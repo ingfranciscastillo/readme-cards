@@ -1,6 +1,7 @@
-import type { RenderContext } from "../lib/svg/context";
-import { cardFrame, frameMetrics } from "../lib/svg/layout";
+import { type Anchor, type RenderContext, textLines, typeScale } from "../lib/svg/context";
+import { type Block, cardFrame, frameMetrics } from "../lib/svg/layout";
 import { type SafeSvg, svg } from "../lib/svg/markup";
+import { wrapText } from "../lib/svg/text";
 import { darkColorMap } from "../lib/svg/theme";
 import type { CardStyle, RenderedCard } from "../types/card";
 
@@ -70,4 +71,68 @@ export function initials(name: string): string {
     .filter(Boolean);
   const letters = parts.length > 1 ? parts[0][0] + parts[1][0] : (parts[0] ?? "?").slice(0, 2);
   return letters.toUpperCase();
+}
+
+/** Title and subtitle blocks, laid out the way every titled card does it. */
+export function headingBlocks(
+  ctx: RenderContext,
+  heading: { title: string; subtitle: string; showTitle: boolean; showSubtitle: boolean },
+  box: { x: number; width: number; anchor: Anchor },
+): Block[] {
+  const s = ctx.style;
+  const t = typeScale(s);
+  const { x, width, anchor } = box;
+  const blocks: Block[] = [];
+  if (heading.showTitle && heading.title.trim()) {
+    const style = { font: s.displayFont, size: t.title, weight: s.titleWeight };
+    const lh = Math.round(t.title * 1.15);
+    const lines = wrapText(heading.title.trim(), style, width, 2);
+    blocks.push({
+      height: lines.length * lh,
+      render: (top) =>
+        textLines(ctx, { x, top, lines, style, lineHeight: lh, fill: s.text, anchor }),
+    });
+  }
+  if (heading.showSubtitle && heading.subtitle.trim()) {
+    const style = { font: s.bodyFont, size: t.base, weight: 400 };
+    const lines = wrapText(heading.subtitle.trim(), style, width, 3);
+    blocks.push({
+      height: lines.length * t.lineHeight,
+      marginTop: blocks.length > 0 ? -Math.round(s.gap * 0.4) : 0,
+      render: (top) =>
+        textLines(ctx, {
+          x,
+          top,
+          lines,
+          style,
+          lineHeight: t.lineHeight,
+          fill: s.text,
+          opacity: t.muted,
+          anchor,
+        }),
+    });
+  }
+  return blocks;
+}
+
+/** A muted one-line hint shown when a card has nothing to list yet. */
+export function emptyHint(ctx: RenderContext, text: string, x: number, anchor: Anchor): Block {
+  const s = ctx.style;
+  const t = typeScale(s);
+  const style = { font: s.bodyFont, size: t.small, weight: 400 };
+  const lh = Math.round(t.small * 1.7);
+  return {
+    height: lh,
+    render: (top) =>
+      textLines(ctx, {
+        x,
+        top,
+        lines: [text],
+        style,
+        lineHeight: lh,
+        fill: s.text,
+        opacity: 0.6,
+        anchor,
+      }),
+  };
 }

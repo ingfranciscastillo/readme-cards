@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Now template (rows, two columns, compact): what you're building, learning, reading or
+  listening to, each with an icon.
+- Install template (terminal, code block, steps): setup commands for a project README, with
+  `#` comments as captions and a choice of code font.
 - Share links: **Copy share link** in the export panel gives a URL that opens the card in the
   editor with the same settings. The settings are compressed into the link, so nothing is
   uploaded; uploaded avatars are left out. Opening a link asks before it replaces your edits,

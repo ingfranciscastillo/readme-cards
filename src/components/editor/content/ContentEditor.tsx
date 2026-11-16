@@ -2,7 +2,9 @@ import type { CardConfig, TemplateId } from "../../../types/card";
 import type {
   BannerContent,
   ContactContent,
+  InstallContent,
   LanguagesContent,
+  NowContent,
   ProfileContent,
   QuoteContent,
   RepositoryContent,
@@ -10,7 +12,9 @@ import type {
 } from "../../../types/content";
 import { BannerEditor } from "./BannerEditor";
 import { ContactEditor } from "./ContactEditor";
+import { InstallEditor } from "./InstallEditor";
 import { LanguagesEditor } from "./LanguagesEditor";
+import { NowEditor } from "./NowEditor";
 import { ProfileEditor } from "./ProfileEditor";
 import { QuoteEditor } from "./QuoteEditor";
 import { RepositoryEditor } from "./RepositoryEditor";
@@ -45,6 +49,10 @@ export function ContentEditor({
       return <BannerEditor content={config.content as BannerContent} update={update} />;
     case "contact":
       return <ContactEditor content={config.content as ContactContent} update={update} />;
+    case "now":
+      return <NowEditor content={config.content as NowContent} update={update} />;
+    case "install":
+      return <InstallEditor content={config.content as InstallContent} update={update} />;
     case "languages":
       return <LanguagesEditor content={config.content as LanguagesContent} update={update} />;
   }

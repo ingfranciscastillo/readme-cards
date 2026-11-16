@@ -1,19 +1,26 @@
 import book from "iconoir/icons/regular/book.svg?raw";
+import code from "iconoir/icons/regular/code.svg?raw";
 import codepen from "iconoir/icons/regular/codepen.svg?raw";
 import discord from "iconoir/icons/regular/discord.svg?raw";
 import dribbble from "iconoir/icons/regular/dribbble.svg?raw";
+import gamepad from "iconoir/icons/regular/gamepad.svg?raw";
 import gitFork from "iconoir/icons/regular/git-fork.svg?raw";
 import github from "iconoir/icons/regular/github.svg?raw";
 import gitlab from "iconoir/icons/regular/gitlab-full.svg?raw";
 import globe from "iconoir/icons/regular/globe.svg?raw";
+import graduationCap from "iconoir/icons/regular/graduation-cap.svg?raw";
+import headset from "iconoir/icons/regular/headset.svg?raw";
 import instagram from "iconoir/icons/regular/instagram.svg?raw";
+import lightBulb from "iconoir/icons/regular/light-bulb.svg?raw";
 import link from "iconoir/icons/regular/link.svg?raw";
 import linkedin from "iconoir/icons/regular/linkedin.svg?raw";
 import mail from "iconoir/icons/regular/mail.svg?raw";
 import mapPin from "iconoir/icons/regular/map-pin.svg?raw";
 import mastodon from "iconoir/icons/regular/mastodon.svg?raw";
 import medium from "iconoir/icons/regular/medium.svg?raw";
+import openBook from "iconoir/icons/regular/open-book.svg?raw";
 import page from "iconoir/icons/regular/page.svg?raw";
+import sparks from "iconoir/icons/regular/sparks.svg?raw";
 import star from "iconoir/icons/regular/star.svg?raw";
 import telegram from "iconoir/icons/regular/telegram.svg?raw";
 import threads from "iconoir/icons/regular/threads.svg?raw";
@@ -33,6 +40,13 @@ function inner(source: string): string {
 
 const ICONS = {
   book: inner(book),
+  code: inner(code),
+  gamepad: inner(gamepad),
+  graduationCap: inner(graduationCap),
+  headset: inner(headset),
+  lightBulb: inner(lightBulb),
+  openBook: inner(openBook),
+  sparks: inner(sparks),
   codepen: inner(codepen),
   discord: inner(discord),
   dribbble: inner(dribbble),

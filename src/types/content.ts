@@ -1,3 +1,5 @@
+import type { FontId } from "./card";
+
 export type SocialPlatform =
   | "github"
   | "gitlab"
@@ -113,4 +115,44 @@ export interface ContactContent {
   showSubtitle: boolean;
   showPlatform: boolean;
   links: SocialLink[];
+}
+
+export type NowIcon =
+  | "building"
+  | "learning"
+  | "reading"
+  | "listening"
+  | "playing"
+  | "location"
+  | "idea"
+  | "other";
+
+export interface NowItem {
+  id: string;
+  icon: NowIcon;
+  label: string;
+  text: string;
+}
+
+export interface NowContent {
+  title: string;
+  subtitle: string;
+  showTitle: boolean;
+  showSubtitle: boolean;
+  showIcons: boolean;
+  items: NowItem[];
+}
+
+export interface InstallContent {
+  title: string;
+  subtitle: string;
+  showTitle: boolean;
+  showSubtitle: boolean;
+  /** Shown in the terminal layout's title bar. */
+  windowTitle: string;
+  showPrompt: boolean;
+  /** A monospace font for the commands; anything else falls back to Geist Mono. */
+  codeFont: FontId;
+  /** One command per line; lines starting with # are comments. */
+  commands: string;
 }

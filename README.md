@@ -22,11 +22,13 @@ There's no backend and no account. Everything runs in your browser. The only net
 
 ## Features
 
-- **7 templates, 19 layouts**:
+- **9 templates, 25 layouts**:
   - Profile (side by side, stacked)
   - Banner (classic, accent rule, split): a wide header for the top of your README
   - Contact (rows, grid, inline): social profiles, email and website with their icons
+  - Now (rows, two columns, compact): what you're building, learning and reading at the moment
   - Repository (classic, spotlight)
+  - Install (terminal, code block, steps): setup commands for a project README
   - Tech Stack (outlined tags, solid tags, inline list)
   - Languages (stacked bar, bars, donut)
   - Quote (quotation mark, side rule, plain)
