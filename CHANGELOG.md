@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-11-16
+
 ### Added
 
 - Now template (rows, two columns, compact): what you're building, learning, reading or
@@ -29,7 +31,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - New interface type: Bricolage Grotesque (condensed) for headings and the wordmark, Instrument
-  Sans for the interface. The gallery intro shows the Markdown line you paste into a README.
+  Sans for the interface. The gallery intro shows the Markdown line you paste into a README,
+  and the social preview image uses the new type.
 - Faster first load: gallery cards render as they scroll into view, the editor loads as a
   separate chunk (fetched when the browser is idle), and cards re-measure once when fonts
   arrive instead of once per font.
@@ -104,7 +107,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   HTML snippets.
 - Work saved to `localStorage`, with a per-template reset.
 
-[Unreleased]: https://github.com/ingfranciscastillo/readme-cards/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/ingfranciscastillo/readme-cards/compare/v0.4.0...HEAD
+[0.4.0]: https://github.com/ingfranciscastillo/readme-cards/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/ingfranciscastillo/readme-cards/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/ingfranciscastillo/readme-cards/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/ingfranciscastillo/readme-cards/releases/tag/v0.1.0
