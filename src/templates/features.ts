@@ -9,20 +9,90 @@ import { emptyHint, finishCard, headingBlocks, PAPER_STYLE } from "./shared";
 
 export const MAX_FEATURES = 6;
 
-export const FEATURE_ICONS: { value: FeatureIcon; label: string; icon: IconName }[] = [
-  { value: "fast", label: "Fast", icon: "flash" },
-  { value: "secure", label: "Secure", icon: "shieldCheck" },
-  { value: "plugins", label: "Plugins", icon: "puzzle" },
-  { value: "code", label: "Code", icon: "code" },
-  { value: "design", label: "Design", icon: "palette" },
-  { value: "global", label: "Global", icon: "globe" },
-  { value: "data", label: "Data", icon: "database" },
-  { value: "cloud", label: "Cloud", icon: "cloud" },
-  { value: "mobile", label: "Mobile", icon: "phone" },
-  { value: "package", label: "Package", icon: "package" },
-  { value: "accessible", label: "Accessible", icon: "accessibility" },
-  { value: "check", label: "Check", icon: "checkCircle" },
+/** The icons a feature can use, grouped for the picker. */
+export const FEATURE_ICON_GROUPS: {
+  label: string;
+  icons: { value: FeatureIcon; label: string; icon: IconName }[];
+}[] = [
+  {
+    label: "Speed and quality",
+    icons: [
+      { value: "fast", label: "Fast", icon: "flash" },
+      { value: "rocket", label: "Rocket", icon: "rocket" },
+      { value: "timer", label: "Timer", icon: "timer" },
+      { value: "refresh", label: "Refresh", icon: "refreshDouble" },
+      { value: "lightweight", label: "Lightweight", icon: "leaf" },
+      { value: "check", label: "Check", icon: "checkCircle" },
+      { value: "star", label: "Star", icon: "star" },
+      { value: "trophy", label: "Trophy", icon: "trophy" },
+    ],
+  },
+  {
+    label: "Security and privacy",
+    icons: [
+      { value: "secure", label: "Secure", icon: "shieldCheck" },
+      { value: "lock", label: "Lock", icon: "lock" },
+      { value: "key", label: "Key", icon: "key" },
+      { value: "private", label: "Private", icon: "eyeClosed" },
+    ],
+  },
+  {
+    label: "Development",
+    icons: [
+      { value: "code", label: "Code", icon: "code" },
+      { value: "terminal", label: "Terminal", icon: "terminal" },
+      { value: "plugins", label: "Plugins", icon: "puzzle" },
+      { value: "package", label: "Package", icon: "package" },
+      { value: "git", label: "Git", icon: "gitBranch" },
+      { value: "bug", label: "Bug", icon: "bug" },
+      { value: "settings", label: "Settings", icon: "settings" },
+      { value: "cpu", label: "Processor", icon: "cpu" },
+      { value: "test", label: "Tests", icon: "testTube" },
+      { value: "magic", label: "Magic", icon: "magicWand" },
+    ],
+  },
+  {
+    label: "Design and content",
+    icons: [
+      { value: "design", label: "Design", icon: "palette" },
+      { value: "layout", label: "Layout", icon: "viewGrid" },
+      { value: "text", label: "Text", icon: "text" },
+      { value: "image", label: "Image", icon: "mediaImage" },
+      { value: "edit", label: "Edit", icon: "editPencil" },
+      { value: "translate", label: "Languages", icon: "translate" },
+      { value: "accessible", label: "Accessible", icon: "accessibility" },
+      { value: "dark-mode", label: "Dark mode", icon: "halfMoon" },
+    ],
+  },
+  {
+    label: "Data and platforms",
+    icons: [
+      { value: "data", label: "Data", icon: "database" },
+      { value: "cloud", label: "Cloud", icon: "cloud" },
+      { value: "server", label: "Server", icon: "server" },
+      { value: "download", label: "Download", icon: "download" },
+      { value: "search", label: "Search", icon: "search" },
+      { value: "offline", label: "Offline", icon: "wifiOff" },
+      { value: "global", label: "Global", icon: "globe" },
+      { value: "mobile", label: "Mobile", icon: "phone" },
+      { value: "laptop", label: "Desktop", icon: "laptop" },
+      { value: "chart", label: "Chart", icon: "graphUp" },
+    ],
+  },
+  {
+    label: "People and ideas",
+    icons: [
+      { value: "users", label: "People", icon: "group" },
+      { value: "chat", label: "Chat", icon: "chatBubble" },
+      { value: "heart", label: "Heart", icon: "heart" },
+      { value: "idea", label: "Idea", icon: "lightBulb" },
+      { value: "sparks", label: "Sparks", icon: "sparks" },
+      { value: "docs", label: "Docs", icon: "openBook" },
+    ],
+  },
 ];
+
+export const FEATURE_ICONS = FEATURE_ICON_GROUPS.flatMap((group) => group.icons);
 
 function iconFor(value: string): IconName {
   return (FEATURE_ICONS.find((i) => i.value === value) ?? FEATURE_ICONS[0]).icon;

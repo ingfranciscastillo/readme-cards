@@ -1,5 +1,5 @@
 import { Plus, Trash } from "iconoir-react";
-import { FEATURE_ICONS, MAX_FEATURES } from "../../../templates/features";
+import { FEATURE_ICON_GROUPS, MAX_FEATURES } from "../../../templates/features";
 import type { FeatureIcon, FeatureItem, FeaturesContent } from "../../../types/content";
 import { Button, IconButton } from "../../ui/Button";
 import { Group } from "../../ui/fields";
@@ -41,10 +41,14 @@ export function FeaturesEditor({ content, update }: ContentEditorProps<FeaturesC
                     value={item.icon}
                     onChange={(e) => setItem(index, { icon: e.target.value as FeatureIcon })}
                   >
-                    {FEATURE_ICONS.map((i) => (
-                      <option key={i.value} value={i.value}>
-                        {i.label}
-                      </option>
+                    {FEATURE_ICON_GROUPS.map((group) => (
+                      <optgroup key={group.label} label={group.label}>
+                        {group.icons.map((i) => (
+                          <option key={i.value} value={i.value}>
+                            {i.label}
+                          </option>
+                        ))}
+                      </optgroup>
                     ))}
                   </select>
                   <input

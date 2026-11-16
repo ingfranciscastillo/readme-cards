@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Features template: 46 icons to choose from instead of 12, grouped by theme in the picker.
+  Cards saved with the earlier icons keep them.
+
 ## [0.4.0] - 2026-11-16
 
 ### Added
